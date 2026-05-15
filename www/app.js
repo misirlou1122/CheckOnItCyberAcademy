@@ -4,6 +4,16 @@ let touchStartX = 0;
 let touchEndX = 0;
 let translationRun = 0;
 const languagePackCache = {};
+const TOPIC_QUIZ_SIZE = 10;
+const DAILY_DRILL_SIZE = 10;
+const FINAL_EXAM_SIZE = 90;
+const FINAL_DOMAIN_PLAN = [
+  { id: "general", count: 11, topics: ["principles", "iam", "crypto"] },
+  { id: "threats", count: 20, topics: ["network-attacks", "app-attacks", "wireless", "assessment"] },
+  { id: "architecture", count: 16, topics: ["network-design", "secure-dev", "endpoint", "cloud-security", "physical"] },
+  { id: "operations", count: 25, topics: ["endpoint", "assessment", "incident", "cloud-security", "network-design"] },
+  { id: "program", count: 18, topics: ["governance", "risk-privacy", "physical"] }
+];
 
 const iconPaths = {
   cloud: '<path d="M17 18H8a5 5 0 1 1 1.3-9.8A7 7 0 0 1 23 10a4 4 0 0 1-1 8h-1"/>',
@@ -37,7 +47,7 @@ const topics = [
         "body": [
           "Security+ questions usually ask you to identify a control, attack, protocol, risk response, or recovery step from a short business scenario.",
           "Look for clues about confidentiality, integrity, availability, identity, network boundaries, secure development, operations, governance, and incident response.",
-          "For pacing, practice answering 45 questions in about 45 minutes. Mark long scenarios, answer the direct recognition questions first, and return to the harder ones."
+          "For pacing, practice answering 90 questions in about 90 minutes. Mark long scenarios, answer the direct recognition questions first, and return to the harder ones."
         ],
         "remember": "Ask what the scenario is really protecting: data, identity, network traffic, an endpoint, a building, or a business process."
       },
@@ -58,6 +68,27 @@ const topics = [
           "Do not memorize only definitions. Practice choosing between similar controls such as IDS versus IPS, hashing versus encryption, and hot versus warm recovery sites."
         ],
         "remember": "When two answers seem right, pick the one with the tightest match to the stated requirement."
+      },
+      {
+        "title": "SY0-701 Exam Shape",
+        "body": [
+          "The Security+ SY0-701 exam is built around five domains: general security concepts, threats and mitigations, architecture, operations, and program oversight.",
+          "The real exam can include up to 90 questions in 90 minutes. Treat this app's final practice as a timed stamina set, not just a memory drill.",
+          "Questions may be direct multiple choice, multi-response, or PBQ-style scenarios where the best answer depends on sequence, priority, or matching the control to the situation."
+        ],
+        "remember": "For the final practice, move at about one minute per question and flag long scenarios mentally before answering.",
+        "sections": [
+          {
+            "title": "Domain Weighting",
+            "items": [
+              "General Security Concepts: about 12 percent.",
+              "Threats, Vulnerabilities, and Mitigations: about 22 percent.",
+              "Security Architecture: about 18 percent.",
+              "Security Operations: about 28 percent.",
+              "Security Program Management and Oversight: about 20 percent."
+            ]
+          }
+        ]
       }
     ],
     "color": "#ff85c7"
@@ -108,6 +139,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "SY0-701 Control Thinking",
+        "body": [
+          "Start by naming the control goal: prevent, detect, correct, deter, compensate, or recover.",
+          "Then match the control to the asset and layer: identity, endpoint, network, application, data, facility, or business process.",
+          "When two answers look right, choose the one that directly reduces the risk described in the last sentence."
+        ],
+        "remember": "Question stems usually hide the control type in verbs such as block, alert, restore, verify, or discourage."
       }
     ]
   },
@@ -157,6 +197,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "Identity Provider And Federation Clues",
+        "body": [
+          "Modern cloud and SaaS access often centers on an identity provider that issues tokens to applications.",
+          "SAML is common for enterprise browser SSO, while OIDC builds on OAuth concepts for modern web and mobile identity.",
+          "Conditional access combines identity signals such as location, device posture, risk score, and MFA status before allowing access."
+        ],
+        "remember": "Federation means one trusted identity system vouches for users to another service."
       }
     ]
   },
@@ -206,6 +255,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "Key Lifecycle And PKI Operations",
+        "body": [
+          "PKI questions often hinge on trust: who issued the certificate, whether it is expired, and whether it has been revoked.",
+          "Keys need generation, storage, rotation, escrow or recovery decisions, revocation, and destruction.",
+          "A hardware security module protects high-value keys by keeping private key operations inside tamper-resistant hardware."
+        ],
+        "remember": "Certificates bind identities to public keys; they do not prove software is safe by themselves."
       }
     ]
   },
@@ -255,6 +313,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "Threat Actor Pattern Recognition",
+        "body": [
+          "Security+ scenarios often describe behavior instead of naming the attack: login spikes, unusual destinations, encoded commands, or impossible travel.",
+          "Map the behavior to attacker goals: initial access, execution, persistence, privilege escalation, lateral movement, exfiltration, or impact.",
+          "Indicators of compromise are evidence that something likely happened; tactics, techniques, and procedures explain how attackers operate."
+        ],
+        "remember": "IoC equals clue; TTP equals behavior pattern."
       }
     ]
   },
@@ -304,6 +371,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "Zero Trust And Segmentation",
+        "body": [
+          "Zero Trust assumes no network location is automatically trusted and requires continuous verification.",
+          "Microsegmentation limits lateral movement by placing workloads or users into small policy-controlled zones.",
+          "SASE and SSE concepts combine identity-aware access, cloud security controls, and secure connectivity for distributed users."
+        ],
+        "remember": "Segmentation reduces blast radius; Zero Trust decides access from identity, device, context, and policy."
       }
     ]
   },
@@ -353,6 +429,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "Wireless And IoT Attack Surface",
+        "body": [
+          "Wireless security questions often test whether you know the difference between encryption, authentication, and management-plane protection.",
+          "WPA3 improves protection, but weak passphrases, evil twins, rogue access points, and poor onboarding still create risk.",
+          "IoT devices need inventory, network isolation, firmware updates, and default credential removal because many cannot run full endpoint tools."
+        ],
+        "remember": "For IoT, isolation and inventory are often the most realistic first controls."
       }
     ]
   },
@@ -402,6 +487,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "API And Web Application Clues",
+        "body": [
+          "Modern application questions often describe APIs, tokens, JSON payloads, and server-side calls rather than only classic web forms.",
+          "Input validation, output encoding, parameterized queries, and authorization checks address different parts of the request lifecycle.",
+          "SSRF is a server-side request problem; insecure direct object reference is an authorization problem."
+        ],
+        "remember": "SQL injection needs query separation; XSS needs output safety; IDOR needs authorization checks."
       }
     ]
   },
@@ -451,6 +545,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "Secure Pipeline And Supply Chain",
+        "body": [
+          "Secure development now includes the pipeline: source control, dependencies, build systems, artifact signing, and deployment approval.",
+          "SAST, SCA, secret scanning, container scanning, and DAST answer different questions and are strongest when combined.",
+          "A software bill of materials helps identify affected components when a library vulnerability is announced."
+        ],
+        "remember": "SBOM is inventory for software components."
       }
     ]
   },
@@ -500,6 +603,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "Endpoint Detection And Response Flow",
+        "body": [
+          "Endpoint hardening reduces attack surface before compromise; EDR helps detect and investigate suspicious activity after signals appear.",
+          "UEM and MDM enforce device posture, encryption, screen locks, application policy, and remote wipe for mobile and BYOD environments.",
+          "Application control can use allowlists, deny lists, signatures, hashes, publishers, or behavior rules."
+        ],
+        "remember": "Hardening prevents; EDR detects and supports response."
       }
     ]
   },
@@ -549,6 +661,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "Cloud Responsibility And Guardrails",
+        "body": [
+          "Cloud security depends on the service model: the provider manages more in SaaS and less in IaaS.",
+          "Guardrails such as policy-as-code, CSPM, least-privilege roles, encryption defaults, and logging help prevent common cloud mistakes.",
+          "Cloud-native breaches often begin with exposed storage, leaked keys, excessive permissions, or missing monitoring."
+        ],
+        "remember": "In cloud scenarios, ask who controls the layer and what guardrail would have prevented the mistake."
       }
     ]
   },
@@ -598,6 +719,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "Facilities, Environment, And Assets",
+        "body": [
+          "Physical security questions may involve people flow, environmental protection, equipment inventory, and recovery facilities.",
+          "RFID and asset tags support inventory and loss detection; mantraps and access control vestibules reduce tailgating.",
+          "Environmental controls include fire suppression, HVAC, humidity, power, UPS, generators, and water detection."
+        ],
+        "remember": "Physical controls protect availability as much as confidentiality."
       }
     ]
   },
@@ -647,6 +777,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "SOC Triage And Vulnerability Management",
+        "body": [
+          "SOC analysts start by validating whether an alert is true, identifying affected assets, and estimating severity.",
+          "Vulnerability management is a cycle: discover assets, scan, prioritize by risk, remediate or accept, then verify.",
+          "CVSS helps describe technical severity, but business criticality, exploitability, exposure, and compensating controls drive priority."
+        ],
+        "remember": "Patch the riskiest reachable business-critical weaknesses first."
       }
     ]
   },
@@ -696,6 +835,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "SOC Incident Workflow",
+        "body": [
+          "Incident response usually moves from preparation to detection, analysis, containment, eradication, recovery, and lessons learned.",
+          "Containment should limit damage without destroying evidence needed for investigation.",
+          "Chain of custody, time synchronization, and evidence integrity matter when an incident may become legal or regulatory."
+        ],
+        "remember": "Contain first when damage is active; preserve evidence when investigation matters."
       }
     ]
   },
@@ -745,6 +893,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "Program Oversight And Assurance",
+        "body": [
+          "Governance questions ask who owns decisions, which policy applies, and how evidence proves the control is working.",
+          "Audits, assessments, exceptions, risk registers, and metrics connect technical work to management oversight.",
+          "Third-party risk requires due diligence before onboarding and ongoing monitoring after the contract is signed."
+        ],
+        "remember": "Policy says what; standards say how; procedures say step-by-step."
       }
     ]
   },
@@ -794,6 +951,15 @@ const topics = [
             ]
           }
         ]
+      },
+      {
+        "title": "Risk, Privacy, And Business Impact",
+        "body": [
+          "Risk questions often include asset value, exposure factor, annualized rate of occurrence, RTO, RPO, or legal impact.",
+          "Privacy scenarios focus on collection limits, consent, retention, minimization, breach notification, and cross-border transfer.",
+          "A business impact analysis identifies critical functions, dependencies, acceptable downtime, and recovery priorities."
+        ],
+        "remember": "RTO is downtime; RPO is data loss."
       }
     ]
   }
@@ -2563,6 +2729,712 @@ const fullQuestionBank = [
     ],
     "answer": 0,
     "explanation": "Mean time between failures estimates reliability over time."
+  },
+  {
+    "id": "gen-control-1",
+    "topic": "principles",
+    "prompt": "A company adds warning signs, lighting, and visible cameras around a restricted entrance. Which control effect is the main goal?",
+    "choices": [
+      "Deterrent",
+      "Corrective",
+      "Compensating",
+      "Recovery"
+    ],
+    "explanation": "Visible warnings and cameras are intended to discourage an attempt before it happens.",
+    "answer": 0
+  },
+  {
+    "id": "gen-control-2",
+    "topic": "principles",
+    "prompt": "A backup generator keeps a datacenter running when utility power fails. Which security objective is it primarily supporting?",
+    "choices": [
+      "Availability",
+      "Confidentiality",
+      "Non-repudiation",
+      "Obfuscation"
+    ],
+    "explanation": "Power resilience keeps services available.",
+    "answer": 0
+  },
+  {
+    "id": "gen-zero-trust-1",
+    "topic": "network-design",
+    "prompt": "Which choices are core Zero Trust ideas?",
+    "choices": [
+      "Verify explicitly",
+      "Assume internal networks are always safe",
+      "Use least privilege",
+      "Trust devices after first login"
+    ],
+    "explanation": "Zero Trust emphasizes explicit verification and least privilege instead of location-based trust.",
+    "answers": [
+      0,
+      2
+    ]
+  },
+  {
+    "id": "gen-resilience-1",
+    "topic": "risk-privacy",
+    "prompt": "A service is designed so that one failed node does not take down the application. Which concept is being applied?",
+    "choices": [
+      "Resilience",
+      "Obfuscation",
+      "Tokenization",
+      "Due care"
+    ],
+    "explanation": "Resilience is the ability to continue operating through failure.",
+    "answer": 0
+  },
+  {
+    "id": "iam-idp-1",
+    "topic": "iam",
+    "prompt": "A SaaS app redirects users to the company's identity provider and accepts a signed assertion after login. Which concept is being used?",
+    "choices": [
+      "Federation",
+      "Hashing",
+      "NAT",
+      "Sandboxing"
+    ],
+    "explanation": "Federation allows a trusted identity provider to authenticate users for another service.",
+    "answer": 0
+  },
+  {
+    "id": "iam-conditional-1",
+    "topic": "iam",
+    "prompt": "A login is blocked because the user is in a new country, the device is unmanaged, and MFA was not completed. What control made this decision?",
+    "choices": [
+      "Conditional access",
+      "Kerberos preauthentication",
+      "RADIUS accounting",
+      "Password spraying"
+    ],
+    "explanation": "Conditional access evaluates context and risk signals before granting access.",
+    "answer": 0
+  },
+  {
+    "id": "iam-pam-1",
+    "topic": "iam",
+    "prompt": "Which two controls best reduce standing administrator privilege?",
+    "choices": [
+      "Just-in-time elevation",
+      "Privileged access management",
+      "Shared administrator accounts",
+      "Longer password expiration"
+    ],
+    "explanation": "JIT elevation and PAM reduce persistent privileged access and improve accountability.",
+    "answers": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": "crypto-hsm-1",
+    "topic": "crypto",
+    "prompt": "A bank wants private keys used for signing transactions to remain inside tamper-resistant hardware. What should it deploy?",
+    "choices": [
+      "HSM",
+      "TPM only",
+      "CRL",
+      "WAF"
+    ],
+    "explanation": "A hardware security module protects high-value cryptographic keys and operations.",
+    "answer": 0
+  },
+  {
+    "id": "threat-ttp-1",
+    "topic": "network-attacks",
+    "prompt": "A report says attackers use PowerShell, scheduled tasks, and encoded commands after initial access. What is the report describing?",
+    "choices": [
+      "TTPs",
+      "RTOs",
+      "Data owners",
+      "Certificate chains"
+    ],
+    "explanation": "Tactics, techniques, and procedures describe how attackers operate.",
+    "answer": 0
+  },
+  {
+    "id": "threat-ioc-2",
+    "topic": "assessment",
+    "prompt": "A SOC analyst sees a known malicious IP, a suspicious file hash, and a new autorun registry key. What are these?",
+    "choices": [
+      "Indicators of compromise",
+      "Risk appetite statements",
+      "Data classifications",
+      "Recovery objectives"
+    ],
+    "explanation": "These are observable clues that compromise may have occurred.",
+    "answer": 0
+  },
+  {
+    "id": "threat-phish-1",
+    "topic": "network-attacks",
+    "prompt": "Several employees receive emails with a fake invoice link that harvests Microsoft 365 credentials. What attack is this?",
+    "choices": [
+      "Phishing",
+      "DNS sinkholing",
+      "Bluejacking",
+      "Directory traversal"
+    ],
+    "explanation": "The scenario describes deceptive email used to steal credentials.",
+    "answer": 0
+  },
+  {
+    "id": "threat-ransom-1",
+    "topic": "incident",
+    "prompt": "A workstation shows a ransom note and many files now have a new encrypted extension. What should be prioritized first?",
+    "choices": [
+      "Contain the affected system",
+      "Pay the ransom immediately",
+      "Delete all backups",
+      "Disable all logging"
+    ],
+    "explanation": "Containment limits spread while response continues.",
+    "answer": 0
+  },
+  {
+    "id": "threat-ddos-2",
+    "topic": "network-attacks",
+    "prompt": "A public API is overwhelmed by traffic from thousands of hosts. Which controls are most relevant?",
+    "choices": [
+      "CDN or DDoS scrubbing",
+      "Rate limiting",
+      "Full disk encryption",
+      "RFID badges"
+    ],
+    "explanation": "DDoS defenses and rate limits help preserve availability during traffic floods.",
+    "answers": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": "threat-pass-spray-1",
+    "topic": "iam",
+    "prompt": "Authentication logs show one password tried against hundreds of accounts over several hours. What is most likely occurring?",
+    "choices": [
+      "Password spraying",
+      "Credential stuffing",
+      "Pass-the-hash",
+      "Kerberoasting"
+    ],
+    "explanation": "Password spraying tries a common password across many accounts to avoid lockouts.",
+    "answer": 0
+  },
+  {
+    "id": "threat-ssrf-1",
+    "topic": "app-attacks",
+    "prompt": "A vulnerable web app can be tricked into requesting the cloud metadata service and returning temporary credentials. What attack is this?",
+    "choices": [
+      "SSRF",
+      "XSS",
+      "CSRF",
+      "LDAP injection"
+    ],
+    "explanation": "Server-side request forgery abuses the server into making requests on the attacker's behalf.",
+    "answer": 0
+  },
+  {
+    "id": "threat-api-idor-1",
+    "topic": "app-attacks",
+    "prompt": "Changing an order ID in an API request lets a user view another customer's order. What weakness is present?",
+    "choices": [
+      "Broken object-level authorization",
+      "SQL deadlock",
+      "DNS poisoning",
+      "Weak hashing"
+    ],
+    "explanation": "IDOR/BOLA occurs when authorization is not checked for the requested object.",
+    "answer": 0
+  },
+  {
+    "id": "arch-shared-1",
+    "topic": "cloud-security",
+    "prompt": "In an IaaS environment, which tasks are usually the customer's responsibility?",
+    "choices": [
+      "Guest operating system patching",
+      "Identity and access configuration",
+      "Physical datacenter security",
+      "Hypervisor hardware repair"
+    ],
+    "explanation": "In IaaS the customer typically manages guest OS and IAM choices, while the provider manages physical facilities.",
+    "answers": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": "arch-cspm-1",
+    "topic": "cloud-security",
+    "prompt": "A team wants continuous detection of public storage buckets, overly permissive security groups, and missing cloud logging. What tool category fits best?",
+    "choices": [
+      "CSPM",
+      "HSM",
+      "NAC",
+      "FDE"
+    ],
+    "explanation": "Cloud security posture management finds risky cloud configurations.",
+    "answer": 0
+  },
+  {
+    "id": "arch-casb-1",
+    "topic": "cloud-security",
+    "prompt": "A company needs visibility and policy enforcement for sanctioned and unsanctioned SaaS use. What should it consider?",
+    "choices": [
+      "CASB",
+      "RAID",
+      "NTP",
+      "SCADA"
+    ],
+    "explanation": "A CASB sits between users and cloud applications to enforce policy and visibility.",
+    "answer": 0
+  },
+  {
+    "id": "arch-container-1",
+    "topic": "cloud-security",
+    "prompt": "Which controls are most relevant before deploying containers to production?",
+    "choices": [
+      "Scan images for vulnerabilities",
+      "Use trusted base images",
+      "Disable all logging",
+      "Store secrets in the image"
+    ],
+    "explanation": "Container security includes trusted images, scanning, and external secret management.",
+    "answers": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": "arch-segment-1",
+    "topic": "network-design",
+    "prompt": "A hospital places medical IoT devices on a restricted VLAN with only required server access. What is the primary benefit?",
+    "choices": [
+      "Reduced lateral movement",
+      "Longer certificate lifetime",
+      "Higher password entropy",
+      "Faster backups"
+    ],
+    "explanation": "Segmentation reduces the blast radius if a device is compromised.",
+    "answer": 0
+  },
+  {
+    "id": "arch-ha-1",
+    "topic": "network-design",
+    "prompt": "A web application uses two regions, health checks, and automatic failover. Which goal is most directly supported?",
+    "choices": [
+      "High availability",
+      "Data minimization",
+      "Tokenization",
+      "Non-repudiation"
+    ],
+    "explanation": "Multi-region failover improves availability.",
+    "answer": 0
+  },
+  {
+    "id": "ops-siem-1",
+    "topic": "assessment",
+    "prompt": "A SIEM rule fires for impossible travel. What should the analyst do first?",
+    "choices": [
+      "Validate the alert with login context",
+      "Erase the user's laptop",
+      "Close the ticket as false positive",
+      "Rotate all company certificates"
+    ],
+    "explanation": "Triage starts by validating the alert and gathering context.",
+    "answer": 0
+  },
+  {
+    "id": "ops-vuln-1",
+    "topic": "assessment",
+    "prompt": "A critical vulnerability exists on an internet-facing payroll server and a medium vulnerability exists on an isolated test system. What should be remediated first?",
+    "choices": [
+      "The internet-facing payroll server",
+      "The isolated test system",
+      "Whichever scanner listed first",
+      "Neither until the annual audit"
+    ],
+    "explanation": "Exposure and business criticality increase priority.",
+    "answer": 0
+  },
+  {
+    "id": "ops-edr-1",
+    "topic": "endpoint",
+    "prompt": "An endpoint tool records process trees, network connections, and suspicious command lines to support investigation. What is it?",
+    "choices": [
+      "EDR",
+      "UPS",
+      "PDU",
+      "NAT"
+    ],
+    "explanation": "EDR collects endpoint telemetry for detection and response.",
+    "answer": 0
+  },
+  {
+    "id": "ops-mdm-1",
+    "topic": "endpoint",
+    "prompt": "A lost BYOD phone contains company email. Which MDM actions are most appropriate?",
+    "choices": [
+      "Selective wipe of company data",
+      "Revoke device access",
+      "Disable datacenter HVAC",
+      "Publish the user's password"
+    ],
+    "explanation": "MDM can remove corporate data and revoke access without wiping unrelated personal data when configured.",
+    "answers": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": "ops-logs-1",
+    "topic": "assessment",
+    "prompt": "Which log sources are most useful for investigating suspected lateral movement?",
+    "choices": [
+      "Authentication logs",
+      "Endpoint process logs",
+      "Cafeteria menu logs",
+      "Public marketing pages"
+    ],
+    "explanation": "Authentication and endpoint telemetry help reveal remote logons and tool execution.",
+    "answers": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": "ops-contain-1",
+    "topic": "incident",
+    "prompt": "A server is actively exfiltrating data. What response phase is most urgent?",
+    "choices": [
+      "Containment",
+      "Lessons learned",
+      "Procurement",
+      "Policy publishing"
+    ],
+    "explanation": "Active data loss requires containment to limit damage.",
+    "answer": 0
+  },
+  {
+    "id": "ops-chain-1",
+    "topic": "incident",
+    "prompt": "Which actions support forensic defensibility?",
+    "choices": [
+      "Document who handled evidence",
+      "Hash collected images",
+      "Edit original logs to remove noise",
+      "Work only from memory"
+    ],
+    "explanation": "Chain of custody and hashes help prove evidence integrity.",
+    "answers": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": "ops-soar-1",
+    "topic": "assessment",
+    "prompt": "A SOC wants phishing reports to automatically enrich URLs, isolate confirmed hosts, and open tickets. What capability fits best?",
+    "choices": [
+      "SOAR",
+      "RAID",
+      "NFC",
+      "PAT"
+    ],
+    "explanation": "SOAR automates response playbooks and integrations.",
+    "answer": 0
+  },
+  {
+    "id": "ops-backup-1",
+    "topic": "risk-privacy",
+    "prompt": "Backups are encrypted, copied offsite, and periodically restored in a test environment. Which concern is being addressed?",
+    "choices": [
+      "Recovery confidence",
+      "Steganography",
+      "Shoulder surfing",
+      "RF attenuation"
+    ],
+    "explanation": "Testing restores proves backups can support recovery.",
+    "answer": 0
+  },
+  {
+    "id": "ops-pbq-order-1",
+    "topic": "incident",
+    "prompt": "PBQ-style: Which incident response order is best after malware is confirmed on one host?",
+    "choices": [
+      "Contain, eradicate, recover, lessons learned",
+      "Recover, ignore, contain, document",
+      "Publish lessons learned, then investigate",
+      "Delete evidence, then contain"
+    ],
+    "explanation": "Confirmed malware normally moves through containment, eradication, recovery, and lessons learned.",
+    "answer": 0
+  },
+  {
+    "id": "gov-policy-1",
+    "topic": "governance",
+    "prompt": "A document states employees may not use company systems for illegal activity or personal crypto mining. What is it?",
+    "choices": [
+      "Acceptable use policy",
+      "Data retention schedule",
+      "Incident containment plan",
+      "Certificate policy only"
+    ],
+    "explanation": "Acceptable use defines permitted and prohibited use of systems.",
+    "answer": 0
+  },
+  {
+    "id": "gov-third-party-1",
+    "topic": "governance",
+    "prompt": "Before signing with a SaaS provider, a company reviews SOC 2 reports, breach history, and security questionnaire responses. What process is this?",
+    "choices": [
+      "Vendor due diligence",
+      "Password spraying",
+      "Data exfiltration",
+      "Cryptographic erasure"
+    ],
+    "explanation": "Third-party risk management includes due diligence before onboarding.",
+    "answer": 0
+  },
+  {
+    "id": "gov-exception-1",
+    "topic": "governance",
+    "prompt": "A system cannot meet a standard for 60 days, so management documents the risk, owner, expiration date, and compensating controls. What is this?",
+    "choices": [
+      "Exception management",
+      "Shadow IT",
+      "Key escrow",
+      "Packet shaping"
+    ],
+    "explanation": "Exceptions should be documented, time-bound, owned, and risk-approved.",
+    "answer": 0
+  },
+  {
+    "id": "risk-bia-1",
+    "topic": "risk-privacy",
+    "prompt": "A team identifies critical processes, dependencies, acceptable downtime, and recovery priorities. What activity is this?",
+    "choices": [
+      "Business impact analysis",
+      "Port scan",
+      "Certificate pinning",
+      "Threat hunting"
+    ],
+    "explanation": "A BIA identifies business recovery requirements.",
+    "answer": 0
+  },
+  {
+    "id": "risk-privacy-1",
+    "topic": "risk-privacy",
+    "prompt": "An application collects precise location even though approximate city is enough for the service. Which privacy principle is most relevant?",
+    "choices": [
+      "Data minimization",
+      "Non-repudiation",
+      "Full backup",
+      "Warm site"
+    ],
+    "explanation": "Data minimization limits collection to what is needed.",
+    "answer": 0
+  },
+  {
+    "id": "risk-quant-1",
+    "topic": "risk-privacy",
+    "prompt": "An asset is worth $200,000 and a scenario would affect 25 percent of its value. What is the SLE?",
+    "choices": [
+      "$50,000",
+      "$25,000",
+      "$200,000",
+      "$800,000"
+    ],
+    "explanation": "SLE equals asset value times exposure factor: 200,000 x 0.25 = 50,000.",
+    "answer": 0
+  },
+  {
+    "id": "cloud-secret-1",
+    "topic": "cloud-security",
+    "prompt": "A developer accidentally commits an API key to a public repository. Which actions are best?",
+    "choices": [
+      "Revoke and rotate the key",
+      "Scan for exposed secrets",
+      "Leave it because the commit was deleted",
+      "Email the key to the team"
+    ],
+    "explanation": "Exposed secrets should be revoked and rotated; scanning helps find other exposures.",
+    "answers": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": "cloud-logs-1",
+    "topic": "cloud-security",
+    "prompt": "Which cloud control most directly helps investigate who changed a security group rule?",
+    "choices": [
+      "Cloud audit logs",
+      "Object lifecycle tiering",
+      "RAID 10",
+      "Screen privacy filter"
+    ],
+    "explanation": "Cloud audit logs record API activity and identity context.",
+    "answer": 0
+  },
+  {
+    "id": "dev-sbom-1",
+    "topic": "secure-dev",
+    "prompt": "A new vulnerability is announced in a logging library. What artifact helps identify affected applications fastest?",
+    "choices": [
+      "SBOM",
+      "RTO",
+      "NDA",
+      "Faraday cage"
+    ],
+    "explanation": "An SBOM lists software components and dependencies.",
+    "answer": 0
+  },
+  {
+    "id": "dev-sca-1",
+    "topic": "secure-dev",
+    "prompt": "Which pipeline controls are most focused on third-party dependency risk?",
+    "choices": [
+      "Software composition analysis",
+      "Dependency pinning and review",
+      "Screen locks",
+      "Badge readers"
+    ],
+    "explanation": "SCA and dependency governance help manage library risk.",
+    "answers": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": "dev-secret-scan-1",
+    "topic": "secure-dev",
+    "prompt": "A pre-commit hook blocks hard-coded passwords and tokens from entering source control. What control is this?",
+    "choices": [
+      "Secret scanning",
+      "Fuzzing",
+      "Dynamic routing",
+      "Token replay"
+    ],
+    "explanation": "Secret scanning detects credentials before they are committed or deployed.",
+    "answer": 0
+  },
+  {
+    "id": "phys-env-1",
+    "topic": "physical",
+    "prompt": "A datacenter adds water sensors under raised floors and monitors humidity. What risk area is being addressed?",
+    "choices": [
+      "Environmental controls",
+      "Federation",
+      "Tokenization",
+      "Input validation"
+    ],
+    "explanation": "Water and humidity monitoring are environmental protections.",
+    "answer": 0
+  },
+  {
+    "id": "phys-asset-1",
+    "topic": "physical",
+    "prompt": "RFID tags are required on equipment above a dollar threshold. Which program does this support most directly?",
+    "choices": [
+      "Asset management",
+      "Password policy",
+      "Incident eradication",
+      "OCSP stapling"
+    ],
+    "explanation": "Asset tags support inventory and tracking.",
+    "answer": 0
+  },
+  {
+    "id": "soc-escalate-1",
+    "topic": "incident",
+    "prompt": "A Tier 1 SOC analyst confirms suspicious PowerShell activity and possible credential theft on an executive laptop. What should happen next?",
+    "choices": [
+      "Escalate according to the runbook",
+      "Delete the alert",
+      "Wait for the weekly report",
+      "Disable the SIEM"
+    ],
+    "explanation": "Confirmed high-impact activity should be escalated through the documented process.",
+    "answer": 0
+  },
+  {
+    "id": "principles-implicit-1",
+    "topic": "principles",
+    "prompt": "A company relies on employees to report suspicious behavior, but also deploys automated alerting. Which concept best describes using people, process, and technology together?",
+    "choices": [
+      "Defense in depth",
+      "Single point of failure",
+      "Implicit deny",
+      "Open design"
+    ],
+    "answer": 0,
+    "explanation": "Defense in depth layers administrative, technical, and physical controls."
+  },
+  {
+    "id": "principles-fail-secure-1",
+    "topic": "principles",
+    "prompt": "An access control system unlocks doors during a life-safety emergency but locks a server cabinet when power is lost. What design idea is being balanced?",
+    "choices": [
+      "Fail safe versus fail secure",
+      "Hashing versus encryption",
+      "RTO versus RPO",
+      "SaaS versus PaaS"
+    ],
+    "answer": 0,
+    "explanation": "Safety-critical doors may fail open, while asset-protection locks may fail closed."
+  },
+  {
+    "id": "netattack-dns-1",
+    "topic": "network-attacks",
+    "prompt": "Users are sent to a fake banking site after an attacker corrupts name resolution. What attack category best fits?",
+    "choices": [
+      "DNS poisoning",
+      "Bluejacking",
+      "Tailgating",
+      "Key stretching"
+    ],
+    "answer": 0,
+    "explanation": "DNS poisoning manipulates name resolution to redirect victims."
+  },
+  {
+    "id": "netdesign-nac-1",
+    "topic": "network-design",
+    "prompt": "A switch places unmanaged laptops into a remediation VLAN until posture checks pass. What control is being used?",
+    "choices": [
+      "NAC",
+      "HSM",
+      "DKIM",
+      "RAID"
+    ],
+    "answer": 0,
+    "explanation": "Network access control can evaluate device posture and assign network access dynamically."
+  },
+  {
+    "id": "wireless-site-1",
+    "topic": "wireless",
+    "prompt": "A technician maps signal bleed into a parking lot and adjusts AP power and placement. What activity is this closest to?",
+    "choices": [
+      "Wireless site survey",
+      "Credential stuffing",
+      "Code signing",
+      "Tokenization"
+    ],
+    "answer": 0,
+    "explanation": "A wireless site survey measures coverage, interference, and signal leakage."
+  },
+  {
+    "id": "appattacks-csrf-1",
+    "topic": "app-attacks",
+    "prompt": "A logged-in user is tricked into clicking a link that submits an unwanted account change to a site where she is already authenticated. What attack is this?",
+    "choices": [
+      "CSRF",
+      "SSRF",
+      "SQL injection",
+      "Race condition"
+    ],
+    "answer": 0,
+    "explanation": "Cross-site request forgery abuses a victim browser and existing session to submit unwanted actions."
   }
 ];
 
@@ -3058,6 +3930,150 @@ const flashCardBank = [
     "term": "A $10,000 asset would lose 40% of value in one incident.",
     "definition": "SLE is $4,000. Multiply asset value by exposure factor.",
     "kind": "example"
+  },
+  {
+    "id": "card-zero-trust",
+    "topic": "network-design",
+    "term": "Zero Trust",
+    "definition": "Security model that continuously verifies identity, device, context, and policy instead of trusting network location."
+  },
+  {
+    "id": "card-cspm",
+    "topic": "cloud-security",
+    "term": "CSPM",
+    "definition": "Cloud Security Posture Management; finds risky cloud configurations such as public storage or missing logs."
+  },
+  {
+    "id": "card-cwpp",
+    "topic": "cloud-security",
+    "term": "CWPP",
+    "definition": "Cloud Workload Protection Platform; protects workloads such as VMs, containers, and serverless functions."
+  },
+  {
+    "id": "card-casb",
+    "topic": "cloud-security",
+    "term": "CASB",
+    "definition": "Cloud Access Security Broker; gives visibility and policy enforcement for cloud app use."
+  },
+  {
+    "id": "card-sbom",
+    "topic": "secure-dev",
+    "term": "SBOM",
+    "definition": "Software Bill of Materials; inventory of application components and dependencies."
+  },
+  {
+    "id": "card-sca",
+    "topic": "secure-dev",
+    "term": "SCA",
+    "definition": "Software Composition Analysis; scans third-party libraries for vulnerable or risky components."
+  },
+  {
+    "id": "card-soar",
+    "topic": "assessment",
+    "term": "SOAR",
+    "definition": "Security Orchestration, Automation, and Response; automates playbooks and tool integrations."
+  },
+  {
+    "id": "card-ttp",
+    "topic": "network-attacks",
+    "term": "TTP",
+    "definition": "Tactics, techniques, and procedures; the way an attacker behaves and operates."
+  },
+  {
+    "id": "card-ioc",
+    "topic": "assessment",
+    "term": "Indicator of Compromise",
+    "definition": "Observable clue such as a malicious IP, file hash, domain, or registry key."
+  },
+  {
+    "id": "card-bola",
+    "topic": "app-attacks",
+    "term": "BOLA / IDOR",
+    "definition": "Broken object-level authorization; users can access objects they do not own."
+  },
+  {
+    "id": "card-ssrf",
+    "topic": "app-attacks",
+    "term": "SSRF",
+    "definition": "Server-side request forgery; attacker tricks a server into making unintended requests."
+  },
+  {
+    "id": "card-pam",
+    "topic": "iam",
+    "term": "PAM",
+    "definition": "Privileged Access Management; controls, monitors, and limits administrator access."
+  },
+  {
+    "id": "card-conditional",
+    "topic": "iam",
+    "term": "Conditional Access",
+    "definition": "Access decision based on signals such as user, device, location, risk, and MFA."
+  },
+  {
+    "id": "card-hsm",
+    "topic": "crypto",
+    "term": "HSM",
+    "definition": "Hardware Security Module; tamper-resistant protection for high-value cryptographic keys."
+  },
+  {
+    "id": "card-bia",
+    "topic": "risk-privacy",
+    "term": "BIA",
+    "definition": "Business Impact Analysis; identifies critical processes, dependencies, downtime, and recovery needs."
+  },
+  {
+    "id": "card-rto-rpo",
+    "topic": "risk-privacy",
+    "term": "RTO vs RPO",
+    "definition": "RTO is how fast service must be restored; RPO is how much data loss is acceptable."
+  },
+  {
+    "id": "card-edr",
+    "topic": "endpoint",
+    "term": "EDR",
+    "definition": "Endpoint Detection and Response; records endpoint telemetry and supports investigation and containment."
+  },
+  {
+    "id": "card-uem",
+    "topic": "endpoint",
+    "term": "UEM",
+    "definition": "Unified Endpoint Management; manages mobile, desktop, and sometimes IoT device policy."
+  },
+  {
+    "id": "card-runbook",
+    "topic": "incident",
+    "term": "Runbook",
+    "definition": "Documented response steps for common alerts or incidents."
+  },
+  {
+    "id": "card-exception",
+    "topic": "governance",
+    "term": "Security Exception",
+    "definition": "Time-bound approval to deviate from a requirement with documented risk and compensating controls."
+  },
+  {
+    "id": "card-data-min",
+    "topic": "risk-privacy",
+    "term": "Data Minimization",
+    "definition": "Collect and retain only the personal data needed for the stated purpose."
+  },
+  {
+    "id": "card-evil-twin",
+    "topic": "wireless",
+    "term": "Evil Twin",
+    "definition": "Rogue wireless network that impersonates a legitimate SSID."
+  },
+  {
+    "id": "card-microseg",
+    "topic": "network-design",
+    "term": "Microsegmentation",
+    "definition": "Small policy-controlled segments that limit lateral movement between workloads."
+  },
+  {
+    "id": "card-guardrails",
+    "topic": "cloud-security",
+    "term": "Cloud Guardrails",
+    "definition": "Preventive policies, defaults, and automation that keep cloud teams inside safe boundaries."
   }
 ];
 
@@ -3115,7 +4131,7 @@ const uiTranslations = {
   "Keep Practicing": "Sigue practicando",
   "Almost Ready": "Casi listo",
   "Ready": "Listo",
-  "Run a quick drill or 45-question final to calibrate.": "Haz una práctica rápida o un final de 45 preguntas para calibrarte.",
+  "Run a quick drill or 90-question final to calibrate.": "Haz una práctica rápida o un final de 90 preguntas para calibrarte.",
   "Use quick drills and review missed answers.": "Usa prácticas rápidas y revisa las respuestas falladas.",
   "Keep drilling missed questions and weaker areas.": "Sigue practicando preguntas falladas y áreas débiles.",
   "Recent final practice is in a strong pass range.": "Tu práctica final reciente está en un rango fuerte para aprobar.",
@@ -3152,7 +4168,7 @@ const uiTranslations = {
   "Done": "Listo",
   "Quiz": "Quiz",
   "Answer breakdown": "Desglose de respuestas",
-  "Fresh 45 Final": "Final nuevo de 45",
+  "Fresh 90 Final": "Final nuevo de 90",
   "Missed Questions": "Preguntas falladas",
   "Search lessons and flash cards by service, term, or exam clue.": "Busca lecciones y tarjetas por servicio, término o pista del examen.",
   "Search CIA, MFA, XSS, RAID...": "Busca CIA, MFA, XSS, RAID...",
@@ -3160,9 +4176,9 @@ const uiTranslations = {
   "Lesson": "Lección",
   "Flash Card": "Tarjeta",
   "correct": "correctas",
-  "Strong pass pace. Review missed questions once, then run another 45-question set.": "Vas a ritmo de aprobación. Revisa las preguntas falladas y luego haz otro set de 45 preguntas.",
+  "Strong pass pace. Review missed questions once, then run another 90-question set.": "Vas a ritmo de aprobación. Revisa las preguntas falladas y luego haz otro set de 90 preguntas.",
   "Keep going. Tap review and focus on the explanations for missed questions.": "Sigue adelante. Toca revisar y enfócate en las explicaciones de las preguntas falladas.",
-  "Start 45-question final practice": "Comenzar práctica final de 45 preguntas",
+  "Start 90-question final practice": "Comenzar práctica final de 90 preguntas",
   "Updating language...": "Actualizando idioma...",
   "Spanish translation could not load. Check the language pack, then tap Español again.": "La traducción al español no pudo cargarse. Revisa el paquete de idioma y toca Español otra vez.",
   "True": "Verdadero",
@@ -3173,14 +4189,14 @@ const uiTranslations = {
   "What The Test Rewards": "Qué recompensa el examen",
   "Security+ questions usually ask you to identify a control, attack, protocol, risk response, or recovery step from a short business scenario.": "Las preguntas de Security+ normalmente te piden identificar un control, ataque, protocolo, respuesta al riesgo o paso de recuperación a partir de un escenario breve.",
   "Look for clues about confidentiality, integrity, availability, identity, network boundaries, secure development, operations, governance, and incident response.": "Busca pistas sobre confidencialidad, integridad, disponibilidad, identidad, límites de red, desarrollo seguro, operaciones, gobernanza y respuesta a incidentes.",
-  "For pacing, practice answering 45 questions in about 45 minutes. Mark long scenarios, answer the direct recognition questions first, and return to the harder ones.": "Para el ritmo, practica responder 45 preguntas en unos 45 minutos. Marca los escenarios largos, responde primero las preguntas de reconocimiento directo y vuelve a las más difíciles.",
+  "For pacing, practice answering 90 questions in about 90 minutes. Mark long scenarios, answer the direct recognition questions first, and return to the harder ones.": "Para el ritmo, practica responder 90 preguntas en unos 90 minutos. Marca los escenarios largos, responde primero las preguntas de reconocimiento directo y vuelve a las más difíciles.",
   "Ask what the scenario is really protecting: data, identity, network traffic, an endpoint, a building, or a business process.": "Pregunta qué protege realmente el escenario: datos, identidad, tráfico de red, un endpoint, un edificio o un proceso de negocio.",
   "Fast Answer Pattern": "Patrón de respuesta rápida",
   "Read the last sentence first. It often names the action: authenticate, encrypt, segment, detect, contain, eradicate, recover, document, or accept risk.": "Lee primero la última oración. A menudo nombra la acción: autenticar, cifrar, segmentar, detectar, contener, erradicar, recuperar, documentar o aceptar riesgo.",
   "Eliminate answers that solve a different layer. A firewall filters traffic, MFA strengthens login, DLP watches sensitive data, and backups support recovery.": "Elimina respuestas que resuelven otra capa. Un firewall filtra tráfico, MFA fortalece el inicio de sesión, DLP vigila datos sensibles y los respaldos apoyan la recuperación.",
   "Scenario questions reward exact fit. If a word such as proximity, non-repudiation, sanitization, SIEM, or hot site appears, match that word to the purpose.": "Las preguntas de escenario recompensan el ajuste exacto. Si aparece una palabra como proximidad, no repudio, sanitización, SIEM o sitio caliente, relaciona esa palabra con su propósito.",
   "Verb plus asset plus constraint usually points to the answer.": "Verbo más activo más restricción normalmente señala la respuesta.",
-  "Domain Weighting": "Peso de los dominios",
+  "Domain Weighting": "Ponderación de dominios",
   "Spend steady time on attacks and defenses because many questions describe symptoms before asking for the best control.": "Dedica tiempo constante a ataques y defensas porque muchas preguntas describen síntomas antes de pedir el mejor control.",
   "Identity, network design, endpoint hardening, cloud, incident response, governance, and risk appear repeatedly across chapters.": "Identidad, diseño de red, endurecimiento de endpoints, nube, respuesta a incidentes, gobernanza y riesgo aparecen repetidamente en los capítulos.",
   "Do not memorize only definitions. Practice choosing between similar controls such as IDS versus IPS, hashing versus encryption, and hot versus warm recovery sites.": "No memorices solo definiciones. Practica elegir entre controles parecidos como IDS frente a IPS, hashing frente a cifrado y sitios de recuperación calientes frente a tibios.",
@@ -3275,7 +4291,7 @@ const uiTranslations = {
   "A DMZ sits between trusted and untrusted networks and commonly hosts public-facing services.": "Una DMZ se ubica entre redes confiables y no confiables y suele alojar servicios públicos.",
   "VLANs separate broadcast domains, while firewalls enforce rules between zones.": "Las VLAN separan dominios de broadcast, mientras los firewalls aplican reglas entre zonas.",
   "Segment first, then filter traffic between segments.": "Segmenta primero y luego filtra tráfico entre segmentos.",
-  "Zero Trust": "Confianza cero",
+  "Zero Trust": "Zero Trust",
   "Zero trust means never automatically trusting a user, device, or network location.": "Confianza cero significa no confiar automáticamente en un usuario, dispositivo o ubicación de red.",
   "Core ideas include verify explicitly, use least privilege, and assume breach.": "Las ideas centrales incluyen verificar explícitamente, usar mínimo privilegio y asumir compromiso.",
   "Continuous monitoring, device posture, identity signals, and microsegmentation support zero trust.": "Monitoreo continuo, postura del dispositivo, señales de identidad y microsegmentación apoyan confianza cero.",
@@ -3564,13 +4580,13 @@ const uiTranslations = {
   "True or False: Biometric false acceptance means the system incorrectly accepts an unauthorized user.": "Verdadero o falso: La falsa aceptación biométrica significa que el sistema acepta incorrectamente a un usuario no autorizado.",
   "False acceptance is the dangerous case where the wrong person is accepted.": "La falsa aceptación es el caso peligroso en que se acepta a la persona equivocada.",
   "Which cryptographic service prevents a sender from credibly denying that they sent a signed message?": "¿Qué servicio criptográfico evita que un remitente niegue de forma creíble que envió un mensaje firmado?",
-  "Tokenization": "Tokenización",
+  "Tokenization": "Tokenizacion",
   "Digital signatures support non-repudiation.": "Las firmas digitales apoyan el no repudio.",
   "Which control best detects whether a downloaded file changed after publication?": "¿Qué control detecta mejor si un archivo descargado cambió después de publicarse?",
   "Hash checksum": "Suma hash",
   "Symmetric encryption": "Cifrado simétrico",
   "Steganography": "Esteganografía",
-  "Key escrow": "Depósito de claves",
+  "Key escrow": "Custodia de claves",
   "A hash changes when the file changes.": "Un hash cambia cuando cambia el archivo.",
   "Which statement best describes symmetric encryption?": "¿Qué afirmación describe mejor el cifrado simétrico?",
   "The same secret key encrypts and decrypts": "La misma clave secreta cifra y descifra",
@@ -3680,7 +4696,7 @@ const uiTranslations = {
   "A forum stores a script in a comment, and the script runs in other users' browsers. What attack is this?": "Un foro guarda un script en un comentario y el script se ejecuta en los navegadores de otros usuarios. ¿Qué ataque es?",
   "Stored XSS": "XSS almacenado",
   "SSRF": "SSRF",
-  "Race condition": "Condición de carrera",
+  "Race condition": "Condicion de carrera",
   "Degaussing": "Desmagnetización",
   "Stored XSS persists malicious script that executes for later viewers.": "XSS almacenado conserva script malicioso que se ejecuta para visitantes posteriores.",
   "Which control best reduces SQL injection risk?": "¿Qué control reduce mejor el riesgo de inyección SQL?",
@@ -3693,11 +4709,11 @@ const uiTranslations = {
   "CSRF": "CSRF",
   "Server-side request forgery abuses the server to make requests.": "SSRF abusa del servidor para realizar solicitudes.",
   "A URL uses ../../ to reach files outside the web directory. What vulnerability is being exploited?": "Una URL usa ../../ para llegar a archivos fuera del directorio web. ¿Qué vulnerabilidad se explota?",
-  "Directory traversal": "Traversal de directorios",
-  "Key stretching": "Estiramiento de clave",
+  "Directory traversal": "Directory traversal",
+  "Key stretching": "Estiramiento de claves",
   "Directory traversal manipulates file paths.": "El traversal de directorios manipula rutas de archivo.",
   "A flaw appears only when two requests hit a balance update at nearly the same time. What is this?": "Una falla aparece solo cuando dos solicitudes llegan a una actualización de saldo casi al mismo tiempo. ¿Qué es?",
-  "Credential stuffing": "Relleno de credenciales",
+  "Credential stuffing": "Credential stuffing",
   "Cold backup": "Respaldo frío",
   "Race conditions depend on timing between operations.": "Las condiciones de carrera dependen del tiempo entre operaciones.",
   "True or False: Pass-the-hash reuses a captured password hash instead of requiring the plaintext password.": "Verdadero o falso: Pass-the-hash reutiliza un hash de contraseña capturado en vez de requerir la contraseña en texto claro.",
@@ -3922,7 +4938,7 @@ const uiTranslations = {
   "DR is the technology recovery side of resilience.": "DR es el lado de recuperación tecnológica de la resiliencia.",
   "Before storing password digests, an engineer adds a unique random value to each password. Which protection is being used?": "Antes de almacenar resúmenes de contraseñas, un ingeniero agrega un valor aleatorio único a cada contraseña. ¿Qué protección se está usando?",
   "Salting": "Salting",
-  "Code signing": "Firma de código",
+  "Code signing": "Firma de codigo",
   "A salt is a unique value added before hashing so identical passwords do not produce identical hashes.": "Una sal es un valor único agregado antes del hashing para que contraseñas iguales no produzcan hashes iguales.",
   "A password storage system intentionally runs many hash rounds to slow offline cracking attempts. What technique is this?": "Un sistema de almacenamiento de contraseñas ejecuta intencionalmente muchas rondas de hash para retrasar intentos de cracking sin conexión. ¿Qué técnica es?",
   "Quarantine": "Cuarentena",
@@ -3995,7 +5011,7 @@ const uiTranslations = {
   "A Windows-based development team needs temporary Linux servers now and similar Linux servers later in production. Which cloud model best fits?": "Un equipo de desarrollo basado en Windows necesita servidores Linux temporales ahora y servidores Linux similares después en producción. ¿Qué modelo de nube encaja mejor?",
   "IaaS lets the team provision virtual machines and control the operating system.": "IaaS permite al equipo aprovisionar máquinas virtuales y controlar el sistema operativo.",
   "All internet traffic for a company depends on one circuit and one router. What risk does this create?": "Todo el tráfico de internet de una empresa depende de un circuito y un router. ¿Qué riesgo crea esto?",
-  "Single point of failure": "Punto único de falla",
+  "Single point of failure": "Punto unico de falla",
   "Virtualization": "Virtualización",
   "If that single dependency fails, the whole connection is affected.": "Si esa única dependencia falla, toda la conexión se afecta.",
   "Which physical control is designed to stop tailgating by allowing one person through a controlled space at a time?": "¿Qué control físico está diseñado para detener tailgating permitiendo pasar a una persona por vez en un espacio controlado?",
@@ -4281,7 +5297,381 @@ const uiTranslations = {
   "A password is accepted only after the user approves a push notification.": "Una contraseña se acepta solo después de que el usuario aprueba una notificación push.",
   "MFA. The login uses something known and something possessed.": "MFA. El inicio usa algo sabido y algo poseído.",
   "A $10,000 asset would lose 40% of value in one incident.": "Un activo de $10,000 perdería 40% de valor en un incidente.",
-  "SLE is $4,000. Multiply asset value by exposure factor.": "SLE es $4,000. Multiplica valor del activo por factor de exposición."
+  "SLE is $4,000. Multiply asset value by exposure factor.": "SLE es $4,000. Multiplica valor del activo por factor de exposición.",
+  "Select all that apply": "Selecciona todas las que correspondan",
+  "This final practice follows the SY0-701 shape: up to 90 questions, 90 minutes, 750 passing score, and a mix of multiple-choice plus PBQ-style scenarios.": "Esta práctica final sigue la forma de SY0-701: hasta 90 preguntas, 90 minutos, puntuación aprobatoria de 750 y una mezcla de opción múltiple con escenarios tipo PBQ.",
+  "Exam target: 90 questions, 90 minutes, 750 passing score.": "Meta del examen: 90 preguntas, 90 minutos, puntuación aprobatoria de 750.",
+  "SY0-701 Exam Shape": "Forma del examen SY0-701",
+  "The Security+ SY0-701 exam is built around five domains: general security concepts, threats and mitigations, architecture, operations, and program oversight.": "El examen Security+ SY0-701 se organiza en cinco dominios: conceptos generales, amenazas y mitigaciones, arquitectura, operaciones y supervisión del programa.",
+  "The real exam can include up to 90 questions in 90 minutes. Treat this app's final practice as a timed stamina set, not just a memory drill.": "El examen real puede incluir hasta 90 preguntas en 90 minutos. Trata la práctica final de esta app como una prueba de resistencia cronometrada, no solo como memorización.",
+  "Questions may be direct multiple choice, multi-response, or PBQ-style scenarios where the best answer depends on sequence, priority, or matching the control to the situation.": "Las preguntas pueden ser de opción múltiple directa, respuesta múltiple o escenarios tipo PBQ donde la mejor respuesta depende de la secuencia, prioridad o control adecuado.",
+  "For the final practice, move at about one minute per question and flag long scenarios mentally before answering.": "Para la práctica final, avanza a casi un minuto por pregunta y marca mentalmente los escenarios largos antes de responder.",
+  "General Security Concepts: about 12 percent.": "Conceptos generales de seguridad: alrededor del 12 por ciento.",
+  "Threats, Vulnerabilities, and Mitigations: about 22 percent.": "Amenazas, vulnerabilidades y mitigaciones: alrededor del 22 por ciento.",
+  "Security Architecture: about 18 percent.": "Arquitectura de seguridad: alrededor del 18 por ciento.",
+  "Security Operations: about 28 percent.": "Operaciones de seguridad: alrededor del 28 por ciento.",
+  "Security Program Management and Oversight: about 20 percent.": "Gestión y supervisión del programa de seguridad: alrededor del 20 por ciento.",
+  "SY0-701 Control Thinking": "Pensamiento de controles SY0-701",
+  "Start by naming the control goal: prevent, detect, correct, deter, compensate, or recover.": "Empieza nombrando el objetivo del control: prevenir, detectar, corregir, disuadir, compensar o recuperar.",
+  "Then match the control to the asset and layer: identity, endpoint, network, application, data, facility, or business process.": "Luego relaciona el control con el activo y la capa: identidad, endpoint, red, aplicación, datos, instalación o proceso de negocio.",
+  "When two answers look right, choose the one that directly reduces the risk described in the last sentence.": "Cuando dos respuestas parezcan correctas, elige la que reduzca directamente el riesgo descrito en la última frase.",
+  "Question stems usually hide the control type in verbs such as block, alert, restore, verify, or discourage.": "Los enunciados suelen esconder el tipo de control en verbos como bloquear, alertar, restaurar, verificar o disuadir.",
+  "Identity Provider And Federation Clues": "Pistas de proveedor de identidad y federación",
+  "Modern cloud and SaaS access often centers on an identity provider that issues tokens to applications.": "El acceso moderno a nube y SaaS suele centrarse en un proveedor de identidad que emite tokens a las aplicaciones.",
+  "SAML is common for enterprise browser SSO, while OIDC builds on OAuth concepts for modern web and mobile identity.": "SAML es común para SSO empresarial en navegador, mientras OIDC usa conceptos de OAuth para identidad web y móvil moderna.",
+  "Conditional access combines identity signals such as location, device posture, risk score, and MFA status before allowing access.": "El acceso condicional combina señales como ubicación, postura del dispositivo, puntuación de riesgo y estado de MFA antes de permitir acceso.",
+  "Federation means one trusted identity system vouches for users to another service.": "Federación significa que un sistema de identidad confiable responde por usuarios ante otro servicio.",
+  "Key Lifecycle And PKI Operations": "Ciclo de vida de claves y operaciones PKI",
+  "PKI questions often hinge on trust: who issued the certificate, whether it is expired, and whether it has been revoked.": "Las preguntas de PKI suelen depender de la confianza: quién emitió el certificado, si expiró y si fue revocado.",
+  "Keys need generation, storage, rotation, escrow or recovery decisions, revocation, and destruction.": "Las claves necesitan generación, almacenamiento, rotación, decisiones de custodia o recuperación, revocación y destrucción.",
+  "A hardware security module protects high-value keys by keeping private key operations inside tamper-resistant hardware.": "Un HSM protege claves de alto valor manteniendo operaciones de clave privada dentro de hardware resistente a manipulación.",
+  "Certificates bind identities to public keys; they do not prove software is safe by themselves.": "Los certificados unen identidades a claves públicas; por sí solos no prueban que el software sea seguro.",
+  "Threat Actor Pattern Recognition": "Reconocimiento de patrones de actores de amenaza",
+  "Security+ scenarios often describe behavior instead of naming the attack: login spikes, unusual destinations, encoded commands, or impossible travel.": "Los escenarios de Security+ suelen describir comportamiento en vez de nombrar el ataque: picos de inicio de sesión, destinos extraños, comandos codificados o viaje imposible.",
+  "Map the behavior to attacker goals: initial access, execution, persistence, privilege escalation, lateral movement, exfiltration, or impact.": "Relaciona el comportamiento con objetivos del atacante: acceso inicial, ejecución, persistencia, escalamiento, movimiento lateral, exfiltración o impacto.",
+  "Indicators of compromise are evidence that something likely happened; tactics, techniques, and procedures explain how attackers operate.": "Los indicadores de compromiso son evidencia de que algo probablemente ocurrió; las TTP explican cómo operan los atacantes.",
+  "IoC equals clue; TTP equals behavior pattern.": "IoC equivale a pista; TTP equivale a patrón de comportamiento.",
+  "Zero Trust And Segmentation": "Zero Trust y segmentación",
+  "Zero Trust assumes no network location is automatically trusted and requires continuous verification.": "Zero Trust asume que ninguna ubicación de red es confiable automáticamente y requiere verificación continua.",
+  "Microsegmentation limits lateral movement by placing workloads or users into small policy-controlled zones.": "La microsegmentación limita el movimiento lateral colocando cargas o usuarios en zonas pequeñas controladas por políticas.",
+  "SASE and SSE concepts combine identity-aware access, cloud security controls, and secure connectivity for distributed users.": "SASE y SSE combinan acceso consciente de identidad, controles de seguridad en la nube y conectividad segura para usuarios distribuidos.",
+  "Segmentation reduces blast radius; Zero Trust decides access from identity, device, context, and policy.": "La segmentación reduce el radio de impacto; Zero Trust decide acceso por identidad, dispositivo, contexto y política.",
+  "Wireless And IoT Attack Surface": "Superficie de ataque inalámbrica e IoT",
+  "Wireless security questions often test whether you know the difference between encryption, authentication, and management-plane protection.": "Las preguntas inalámbricas suelen probar si distingues cifrado, autenticación y protección del plano de gestión.",
+  "WPA3 improves protection, but weak passphrases, evil twins, rogue access points, and poor onboarding still create risk.": "WPA3 mejora la protección, pero contraseñas débiles, evil twins, AP no autorizados e incorporación deficiente aún crean riesgo.",
+  "IoT devices need inventory, network isolation, firmware updates, and default credential removal because many cannot run full endpoint tools.": "Los IoT necesitan inventario, aislamiento de red, actualizaciones de firmware y eliminación de credenciales predeterminadas porque muchos no ejecutan herramientas completas.",
+  "For IoT, isolation and inventory are often the most realistic first controls.": "Para IoT, aislamiento e inventario suelen ser los primeros controles más realistas.",
+  "API And Web Application Clues": "Pistas de API y aplicaciones web",
+  "Modern application questions often describe APIs, tokens, JSON payloads, and server-side calls rather than only classic web forms.": "Las preguntas modernas de aplicaciones suelen describir API, tokens, cargas JSON y llamadas del servidor, no solo formularios clásicos.",
+  "Input validation, output encoding, parameterized queries, and authorization checks address different parts of the request lifecycle.": "Validación de entrada, codificación de salida, consultas parametrizadas y controles de autorización cubren partes distintas del ciclo de solicitud.",
+  "SSRF is a server-side request problem; insecure direct object reference is an authorization problem.": "SSRF es un problema de solicitudes desde el servidor; IDOR es un problema de autorización.",
+  "SQL injection needs query separation; XSS needs output safety; IDOR needs authorization checks.": "SQL injection necesita separación de consultas; XSS necesita salida segura; IDOR necesita autorización.",
+  "Secure Pipeline And Supply Chain": "Pipeline seguro y cadena de suministro",
+  "Secure development now includes the pipeline: source control, dependencies, build systems, artifact signing, and deployment approval.": "El desarrollo seguro ahora incluye el pipeline: control de código, dependencias, sistemas de compilación, firma de artefactos y aprobación de despliegue.",
+  "SAST, SCA, secret scanning, container scanning, and DAST answer different questions and are strongest when combined.": "SAST, SCA, escaneo de secretos, escaneo de contenedores y DAST responden preguntas distintas y son más fuertes combinados.",
+  "A software bill of materials helps identify affected components when a library vulnerability is announced.": "Un SBOM ayuda a identificar componentes afectados cuando se anuncia una vulnerabilidad de biblioteca.",
+  "SBOM is inventory for software components.": "SBOM es inventario de componentes de software.",
+  "Endpoint Detection And Response Flow": "Flujo de detección y respuesta en endpoints",
+  "Endpoint hardening reduces attack surface before compromise; EDR helps detect and investigate suspicious activity after signals appear.": "El hardening reduce superficie antes del compromiso; EDR ayuda a detectar e investigar actividad sospechosa cuando aparecen señales.",
+  "UEM and MDM enforce device posture, encryption, screen locks, application policy, and remote wipe for mobile and BYOD environments.": "UEM y MDM aplican postura, cifrado, bloqueo de pantalla, políticas de apps y borrado remoto para móviles y BYOD.",
+  "Application control can use allowlists, deny lists, signatures, hashes, publishers, or behavior rules.": "El control de aplicaciones puede usar listas permitidas, listas bloqueadas, firmas, hashes, publicadores o reglas de comportamiento.",
+  "Hardening prevents; EDR detects and supports response.": "Hardening previene; EDR detecta y apoya la respuesta.",
+  "Cloud Responsibility And Guardrails": "Responsabilidad y guardrails en la nube",
+  "Cloud security depends on the service model: the provider manages more in SaaS and less in IaaS.": "La seguridad en la nube depende del modelo: el proveedor gestiona más en SaaS y menos en IaaS.",
+  "Guardrails such as policy-as-code, CSPM, least-privilege roles, encryption defaults, and logging help prevent common cloud mistakes.": "Guardrails como política como código, CSPM, roles de mínimo privilegio, cifrado predeterminado y registros ayudan a prevenir errores comunes.",
+  "Cloud-native breaches often begin with exposed storage, leaked keys, excessive permissions, or missing monitoring.": "Las brechas nativas de nube suelen comenzar con almacenamiento expuesto, claves filtradas, permisos excesivos o falta de monitoreo.",
+  "In cloud scenarios, ask who controls the layer and what guardrail would have prevented the mistake.": "En escenarios de nube, pregunta quién controla la capa y qué guardrail habría prevenido el error.",
+  "Facilities, Environment, And Assets": "Instalaciones, ambiente y activos",
+  "Physical security questions may involve people flow, environmental protection, equipment inventory, and recovery facilities.": "Las preguntas de seguridad física pueden tratar flujo de personas, protección ambiental, inventario de equipos e instalaciones de recuperación.",
+  "RFID and asset tags support inventory and loss detection; mantraps and access control vestibules reduce tailgating.": "RFID y etiquetas de activos apoyan inventario y detección de pérdida; mantraps y vestíbulos reducen tailgating.",
+  "Environmental controls include fire suppression, HVAC, humidity, power, UPS, generators, and water detection.": "Los controles ambientales incluyen supresión de incendios, HVAC, humedad, energía, UPS, generadores y detección de agua.",
+  "Physical controls protect availability as much as confidentiality.": "Los controles físicos protegen la disponibilidad tanto como la confidencialidad.",
+  "SOC Triage And Vulnerability Management": "Triaje SOC y gestión de vulnerabilidades",
+  "SOC analysts start by validating whether an alert is true, identifying affected assets, and estimating severity.": "Los analistas SOC empiezan validando si una alerta es verdadera, identificando activos afectados y estimando severidad.",
+  "Vulnerability management is a cycle: discover assets, scan, prioritize by risk, remediate or accept, then verify.": "La gestión de vulnerabilidades es un ciclo: descubrir activos, escanear, priorizar por riesgo, remediar o aceptar y verificar.",
+  "CVSS helps describe technical severity, but business criticality, exploitability, exposure, and compensating controls drive priority.": "CVSS describe gravedad técnica, pero criticidad del negocio, explotabilidad, exposición y controles compensatorios determinan prioridad.",
+  "Patch the riskiest reachable business-critical weaknesses first.": "Parchea primero las debilidades alcanzables de mayor riesgo en activos críticos.",
+  "SOC Incident Workflow": "Flujo de incidentes SOC",
+  "Incident response usually moves from preparation to detection, analysis, containment, eradication, recovery, and lessons learned.": "La respuesta a incidentes suele ir de preparación a detección, análisis, contención, erradicación, recuperación y lecciones aprendidas.",
+  "Containment should limit damage without destroying evidence needed for investigation.": "La contención debe limitar daño sin destruir evidencia necesaria para investigar.",
+  "Chain of custody, time synchronization, and evidence integrity matter when an incident may become legal or regulatory.": "Cadena de custodia, sincronización de tiempo e integridad de evidencia importan cuando un incidente puede ser legal o regulatorio.",
+  "Contain first when damage is active; preserve evidence when investigation matters.": "Contén primero cuando el daño está activo; preserva evidencia cuando la investigación importa.",
+  "Program Oversight And Assurance": "Supervisión del programa y aseguramiento",
+  "Governance questions ask who owns decisions, which policy applies, and how evidence proves the control is working.": "Las preguntas de gobernanza preguntan quién toma decisiones, qué política aplica y cómo la evidencia prueba que el control funciona.",
+  "Audits, assessments, exceptions, risk registers, and metrics connect technical work to management oversight.": "Auditorías, evaluaciones, excepciones, registros de riesgo y métricas conectan trabajo técnico con supervisión administrativa.",
+  "Third-party risk requires due diligence before onboarding and ongoing monitoring after the contract is signed.": "El riesgo de terceros requiere diligencia antes de incorporar y monitoreo continuo después del contrato.",
+  "Policy says what; standards say how; procedures say step-by-step.": "La política dice qué; los estándares dicen cómo; los procedimientos dicen paso a paso.",
+  "Risk, Privacy, And Business Impact": "Riesgo, privacidad e impacto al negocio",
+  "Risk questions often include asset value, exposure factor, annualized rate of occurrence, RTO, RPO, or legal impact.": "Las preguntas de riesgo suelen incluir valor del activo, factor de exposición, tasa anual de ocurrencia, RTO, RPO o impacto legal.",
+  "Privacy scenarios focus on collection limits, consent, retention, minimization, breach notification, and cross-border transfer.": "Los escenarios de privacidad se enfocan en límites de recopilación, consentimiento, retención, minimización, notificación de brecha y transferencia internacional.",
+  "A business impact analysis identifies critical functions, dependencies, acceptable downtime, and recovery priorities.": "Un análisis de impacto al negocio identifica funciones críticas, dependencias, tiempo de inactividad aceptable y prioridades de recuperación.",
+  "RTO is downtime; RPO is data loss.": "RTO es tiempo de inactividad; RPO es pérdida de datos.",
+  "Deterrent": "Disuasivo",
+  "Corrective": "Correctivo",
+  "Compensating": "Compensatorio",
+  "Recovery": "Recuperación",
+  "A company adds warning signs, lighting, and visible cameras around a restricted entrance. Which control effect is the main goal?": "Una empresa agrega letreros de advertencia, iluminación y cámaras visibles alrededor de una entrada restringida. ¿Cuál es el efecto principal del control?",
+  "Visible warnings and cameras are intended to discourage an attempt before it happens.": "Las advertencias y cámaras visibles buscan desalentar el intento antes de que ocurra.",
+  "A backup generator keeps a datacenter running when utility power fails. Which security objective is it primarily supporting?": "Un generador de respaldo mantiene un centro de datos funcionando cuando falla la energía pública. ¿Qué objetivo de seguridad apoya principalmente?",
+  "Power resilience keeps services available.": "La resiliencia de energía mantiene los servicios disponibles.",
+  "Verify explicitly": "Verificar explícitamente",
+  "Assume internal networks are always safe": "Asumir que redes internas siempre son seguras",
+  "Use least privilege": "Usar mínimo privilegio",
+  "Trust devices after first login": "Confiar en dispositivos después del primer inicio",
+  "Which choices are core Zero Trust ideas?": "¿Qué opciones son ideas centrales de Zero Trust?",
+  "Zero Trust emphasizes explicit verification and least privilege instead of location-based trust.": "Zero Trust enfatiza verificación explícita y mínimo privilegio en vez de confianza por ubicación.",
+  "A service is designed so that one failed node does not take down the application. Which concept is being applied?": "Un servicio se diseña para que un nodo fallido no detenga la aplicación. ¿Qué concepto se aplica?",
+  "Resilience is the ability to continue operating through failure.": "La resiliencia es la capacidad de seguir operando durante fallas.",
+  "Sandboxing": "Sandboxing",
+  "A SaaS app redirects users to the company's identity provider and accepts a signed assertion after login. Which concept is being used?": "Una app SaaS redirige usuarios al proveedor de identidad de la empresa y acepta una aserción firmada después del inicio. ¿Qué concepto se usa?",
+  "Federation allows a trusted identity provider to authenticate users for another service.": "La federación permite que un proveedor de identidad confiable autentique usuarios para otro servicio.",
+  "Conditional access": "Acceso condicional",
+  "Kerberos preauthentication": "Preautenticación Kerberos",
+  "RADIUS accounting": "Contabilidad RADIUS",
+  "Password spraying": "Password spraying",
+  "A login is blocked because the user is in a new country, the device is unmanaged, and MFA was not completed. What control made this decision?": "Un inicio de sesión se bloquea porque el usuario está en un país nuevo, el dispositivo no está administrado y no completó MFA. ¿Qué control tomó esta decisión?",
+  "Conditional access evaluates context and risk signals before granting access.": "El acceso condicional evalúa contexto y señales de riesgo antes de conceder acceso.",
+  "Just-in-time elevation": "Elevación justo a tiempo",
+  "Privileged access management": "Gestión de acceso privilegiado",
+  "Shared administrator accounts": "Cuentas administrativas compartidas",
+  "Longer password expiration": "Mayor expiración de contraseña",
+  "Which two controls best reduce standing administrator privilege?": "¿Qué dos controles reducen mejor el privilegio administrativo permanente?",
+  "JIT elevation and PAM reduce persistent privileged access and improve accountability.": "La elevación JIT y PAM reducen acceso privilegiado persistente y mejoran responsabilidad.",
+  "HSM": "HSM",
+  "TPM only": "Solo TPM",
+  "WAF": "WAF",
+  "A bank wants private keys used for signing transactions to remain inside tamper-resistant hardware. What should it deploy?": "Un banco quiere que claves privadas usadas para firmar transacciones permanezcan dentro de hardware resistente a manipulación. ¿Qué debe implementar?",
+  "A hardware security module protects high-value cryptographic keys and operations.": "Un HSM protege claves criptográficas y operaciones de alto valor.",
+  "TTPs": "TTP",
+  "RTOs": "RTO",
+  "Data owners": "Dueños de datos",
+  "Certificate chains": "Cadenas de certificados",
+  "A report says attackers use PowerShell, scheduled tasks, and encoded commands after initial access. What is the report describing?": "Un informe dice que atacantes usan PowerShell, tareas programadas y comandos codificados después del acceso inicial. ¿Qué describe el informe?",
+  "Tactics, techniques, and procedures describe how attackers operate.": "Las tácticas, técnicas y procedimientos describen cómo operan atacantes.",
+  "Risk appetite statements": "Declaraciones de apetito de riesgo",
+  "Data classifications": "Clasificaciones de datos",
+  "Recovery objectives": "Objetivos de recuperación",
+  "A SOC analyst sees a known malicious IP, a suspicious file hash, and a new autorun registry key. What are these?": "Un analista SOC ve una IP maliciosa conocida, un hash sospechoso y una nueva clave de autorun. ¿Qué son?",
+  "These are observable clues that compromise may have occurred.": "Son pistas observables de que pudo ocurrir un compromiso.",
+  "DNS sinkholing": "DNS sinkholing",
+  "Several employees receive emails with a fake invoice link that harvests Microsoft 365 credentials. What attack is this?": "Varios empleados reciben correos con un enlace de factura falsa que roba credenciales de Microsoft 365. ¿Qué ataque es?",
+  "The scenario describes deceptive email used to steal credentials.": "El escenario describe correo engañoso usado para robar credenciales.",
+  "Contain the affected system": "Contener el sistema afectado",
+  "Pay the ransom immediately": "Pagar el rescate de inmediato",
+  "Delete all backups": "Eliminar todos los respaldos",
+  "A workstation shows a ransom note and many files now have a new encrypted extension. What should be prioritized first?": "Una estación muestra nota de rescate y muchos archivos tienen una nueva extensión cifrada. ¿Qué se debe priorizar primero?",
+  "Containment limits spread while response continues.": "La contención limita la propagación mientras continúa la respuesta.",
+  "CDN or DDoS scrubbing": "CDN o limpieza DDoS",
+  "Rate limiting": "Limitación de tasa",
+  "Full disk encryption": "Cifrado de disco completo",
+  "RFID badges": "Credenciales RFID",
+  "A public API is overwhelmed by traffic from thousands of hosts. Which controls are most relevant?": "Una API pública es abrumada por tráfico de miles de hosts. ¿Qué controles son más relevantes?",
+  "DDoS defenses and rate limits help preserve availability during traffic floods.": "Defensas DDoS y límites de tasa ayudan a preservar disponibilidad durante inundaciones de tráfico.",
+  "Pass-the-hash": "Pass-the-hash",
+  "Kerberoasting": "Kerberoasting",
+  "Authentication logs show one password tried against hundreds of accounts over several hours. What is most likely occurring?": "Los registros muestran una contraseña probada contra cientos de cuentas durante varias horas. ¿Qué ocurre probablemente?",
+  "Password spraying tries a common password across many accounts to avoid lockouts.": "Password spraying prueba una contraseña común en muchas cuentas para evitar bloqueos.",
+  "LDAP injection": "Inyección LDAP",
+  "A vulnerable web app can be tricked into requesting the cloud metadata service and returning temporary credentials. What attack is this?": "Una app vulnerable puede ser engañada para solicitar el servicio de metadatos de nube y devolver credenciales temporales. ¿Qué ataque es?",
+  "Server-side request forgery abuses the server into making requests on the attacker's behalf.": "SSRF abusa del servidor para realizar solicitudes por el atacante.",
+  "Broken object-level authorization": "Autorización rota a nivel de objeto",
+  "SQL deadlock": "Bloqueo SQL",
+  "Weak hashing": "Hash débil",
+  "Changing an order ID in an API request lets a user view another customer's order. What weakness is present?": "Cambiar el ID de pedido en una solicitud API permite ver el pedido de otro cliente. ¿Qué debilidad existe?",
+  "IDOR/BOLA occurs when authorization is not checked for the requested object.": "IDOR/BOLA ocurre cuando no se verifica autorización para el objeto solicitado.",
+  "Guest operating system patching": "Parcheo del sistema operativo invitado",
+  "Identity and access configuration": "Configuración de identidad y acceso",
+  "Physical datacenter security": "Seguridad física del datacenter",
+  "Hypervisor hardware repair": "Reparación de hardware del hipervisor",
+  "In an IaaS environment, which tasks are usually the customer's responsibility?": "En un entorno IaaS, ¿qué tareas suelen ser responsabilidad del cliente?",
+  "In IaaS the customer typically manages guest OS and IAM choices, while the provider manages physical facilities.": "En IaaS el cliente suele gestionar el SO invitado e IAM, mientras el proveedor gestiona instalaciones físicas.",
+  "CSPM": "CSPM",
+  "NAC": "NAC",
+  "FDE": "FDE",
+  "A team wants continuous detection of public storage buckets, overly permissive security groups, and missing cloud logging. What tool category fits best?": "Un equipo quiere detección continua de buckets públicos, grupos de seguridad demasiado permisivos y registros de nube faltantes. ¿Qué categoría encaja mejor?",
+  "Cloud security posture management finds risky cloud configurations.": "CSPM encuentra configuraciones riesgosas en la nube.",
+  "NTP": "NTP",
+  "SCADA": "SCADA",
+  "A company needs visibility and policy enforcement for sanctioned and unsanctioned SaaS use. What should it consider?": "Una empresa necesita visibilidad y aplicación de políticas para SaaS aprobado y no aprobado. ¿Qué debe considerar?",
+  "A CASB sits between users and cloud applications to enforce policy and visibility.": "Un CASB se ubica entre usuarios y aplicaciones en la nube para aplicar política y visibilidad.",
+  "Scan images for vulnerabilities": "Escanear imágenes por vulnerabilidades",
+  "Use trusted base images": "Usar imágenes base confiables",
+  "Store secrets in the image": "Guardar secretos en la imagen",
+  "Which controls are most relevant before deploying containers to production?": "¿Qué controles son más relevantes antes de desplegar contenedores a producción?",
+  "Container security includes trusted images, scanning, and external secret management.": "La seguridad de contenedores incluye imágenes confiables, escaneo y gestión externa de secretos.",
+  "Reduced lateral movement": "Menor movimiento lateral",
+  "Longer certificate lifetime": "Mayor vida del certificado",
+  "Higher password entropy": "Mayor entropía de contraseña",
+  "Faster backups": "Respaldos más rápidos",
+  "A hospital places medical IoT devices on a restricted VLAN with only required server access. What is the primary benefit?": "Un hospital coloca dispositivos IoT médicos en una VLAN restringida con solo acceso requerido a servidores. ¿Cuál es el beneficio principal?",
+  "Segmentation reduces the blast radius if a device is compromised.": "La segmentación reduce el radio de impacto si se compromete un dispositivo.",
+  "High availability": "Alta disponibilidad",
+  "Data minimization": "Minimización de datos",
+  "A web application uses two regions, health checks, and automatic failover. Which goal is most directly supported?": "Una aplicación web usa dos regiones, chequeos de salud y failover automático. ¿Qué objetivo apoya más directamente?",
+  "Multi-region failover improves availability.": "El failover multirregión mejora disponibilidad.",
+  "Validate the alert with login context": "Validar la alerta con contexto de inicio",
+  "Erase the user's laptop": "Borrar la laptop del usuario",
+  "Close the ticket as false positive": "Cerrar el ticket como falso positivo",
+  "Rotate all company certificates": "Rotar todos los certificados",
+  "A SIEM rule fires for impossible travel. What should the analyst do first?": "Una regla SIEM alerta por viaje imposible. ¿Qué debe hacer primero el analista?",
+  "Triage starts by validating the alert and gathering context.": "El triaje empieza validando la alerta y reuniendo contexto.",
+  "The internet-facing payroll server": "El servidor de nómina expuesto a Internet",
+  "The isolated test system": "El sistema de prueba aislado",
+  "Whichever scanner listed first": "Lo que el escáner listó primero",
+  "Neither until the annual audit": "Ninguno hasta la auditoría anual",
+  "A critical vulnerability exists on an internet-facing payroll server and a medium vulnerability exists on an isolated test system. What should be remediated first?": "Existe una vulnerabilidad crítica en un servidor de nómina expuesto a Internet y una media en un sistema de prueba aislado. ¿Qué se remedia primero?",
+  "Exposure and business criticality increase priority.": "La exposición y criticidad del negocio aumentan prioridad.",
+  "PDU": "PDU",
+  "An endpoint tool records process trees, network connections, and suspicious command lines to support investigation. What is it?": "Una herramienta endpoint registra árboles de procesos, conexiones de red y comandos sospechosos para investigar. ¿Qué es?",
+  "EDR collects endpoint telemetry for detection and response.": "EDR recopila telemetría endpoint para detección y respuesta.",
+  "Selective wipe of company data": "Borrado selectivo de datos corporativos",
+  "Revoke device access": "Revocar acceso del dispositivo",
+  "Disable datacenter HVAC": "Deshabilitar HVAC del datacenter",
+  "Publish the user's password": "Publicar la contraseña del usuario",
+  "A lost BYOD phone contains company email. Which MDM actions are most appropriate?": "Un teléfono BYOD perdido contiene correo de la empresa. ¿Qué acciones MDM son más apropiadas?",
+  "MDM can remove corporate data and revoke access without wiping unrelated personal data when configured.": "MDM puede eliminar datos corporativos y revocar acceso sin borrar datos personales no relacionados cuando está configurado.",
+  "Authentication logs": "Registros de autenticación",
+  "Endpoint process logs": "Registros de procesos endpoint",
+  "Cafeteria menu logs": "Registros del menú de cafetería",
+  "Public marketing pages": "Páginas públicas de marketing",
+  "Which log sources are most useful for investigating suspected lateral movement?": "¿Qué fuentes de registro son más útiles para investigar movimiento lateral sospechoso?",
+  "Authentication and endpoint telemetry help reveal remote logons and tool execution.": "La telemetría de autenticación y endpoint revela inicios remotos y ejecución de herramientas.",
+  "Procurement": "Compras",
+  "Policy publishing": "Publicación de políticas",
+  "A server is actively exfiltrating data. What response phase is most urgent?": "Un servidor está exfiltrando datos activamente. ¿Qué fase de respuesta es más urgente?",
+  "Active data loss requires containment to limit damage.": "La pérdida activa de datos requiere contención para limitar daño.",
+  "Document who handled evidence": "Documentar quién manejó evidencia",
+  "Hash collected images": "Calcular hashes de imágenes recolectadas",
+  "Edit original logs to remove noise": "Editar registros originales para quitar ruido",
+  "Work only from memory": "Trabajar solo de memoria",
+  "Which actions support forensic defensibility?": "¿Qué acciones apoyan la defensibilidad forense?",
+  "Chain of custody and hashes help prove evidence integrity.": "Cadena de custodia y hashes ayudan a probar integridad de evidencia.",
+  "PAT": "PAT",
+  "A SOC wants phishing reports to automatically enrich URLs, isolate confirmed hosts, and open tickets. What capability fits best?": "Un SOC quiere que reportes de phishing enriquezcan URLs automáticamente, aíslen hosts confirmados y abran tickets. ¿Qué capacidad encaja mejor?",
+  "SOAR automates response playbooks and integrations.": "SOAR automatiza playbooks e integraciones de respuesta.",
+  "Recovery confidence": "Confianza de recuperación",
+  "Shoulder surfing": "Shoulder surfing",
+  "RF attenuation": "Atenuación RF",
+  "Backups are encrypted, copied offsite, and periodically restored in a test environment. Which concern is being addressed?": "Los respaldos están cifrados, copiados fuera del sitio y restaurados periódicamente en prueba. ¿Qué preocupación se aborda?",
+  "Testing restores proves backups can support recovery.": "Probar restauraciones demuestra que los respaldos apoyan recuperación.",
+  "Contain, eradicate, recover, lessons learned": "Contener, erradicar, recuperar, lecciones aprendidas",
+  "Recover, ignore, contain, document": "Recuperar, ignorar, contener, documentar",
+  "Publish lessons learned, then investigate": "Publicar lecciones y luego investigar",
+  "Delete evidence, then contain": "Eliminar evidencia y luego contener",
+  "PBQ-style: Which incident response order is best after malware is confirmed on one host?": "Tipo PBQ: ¿Qué orden de respuesta es mejor después de confirmar malware en un host?",
+  "Confirmed malware normally moves through containment, eradication, recovery, and lessons learned.": "Malware confirmado normalmente sigue contención, erradicación, recuperación y lecciones aprendidas.",
+  "Data retention schedule": "Calendario de retención",
+  "Incident containment plan": "Plan de contención de incidentes",
+  "Certificate policy only": "Solo política de certificados",
+  "A document states employees may not use company systems for illegal activity or personal crypto mining. What is it?": "Un documento indica que empleados no pueden usar sistemas de la empresa para actividad ilegal o minería personal. ¿Qué es?",
+  "Acceptable use defines permitted and prohibited use of systems.": "Uso aceptable define usos permitidos y prohibidos de sistemas.",
+  "Vendor due diligence": "Diligencia de proveedor",
+  "Data exfiltration": "Exfiltración de datos",
+  "Cryptographic erasure": "Borrado criptográfico",
+  "Before signing with a SaaS provider, a company reviews SOC 2 reports, breach history, and security questionnaire responses. What process is this?": "Antes de firmar con un proveedor SaaS, una empresa revisa reportes SOC 2, historial de brechas y cuestionarios de seguridad. ¿Qué proceso es?",
+  "Third-party risk management includes due diligence before onboarding.": "La gestión de terceros incluye diligencia antes de incorporar.",
+  "Exception management": "Gestión de excepciones",
+  "Shadow IT": "Shadow IT",
+  "Packet shaping": "Modelado de paquetes",
+  "A system cannot meet a standard for 60 days, so management documents the risk, owner, expiration date, and compensating controls. What is this?": "Un sistema no puede cumplir un estándar por 60 días, así que gerencia documenta riesgo, dueño, fecha de expiración y controles compensatorios. ¿Qué es?",
+  "Exceptions should be documented, time-bound, owned, and risk-approved.": "Las excepciones deben documentarse, tener plazo, dueño y aprobación de riesgo.",
+  "Business impact analysis": "Análisis de impacto al negocio",
+  "Port scan": "Escaneo de puertos",
+  "Certificate pinning": "Certificate pinning",
+  "Threat hunting": "Caza de amenazas",
+  "A team identifies critical processes, dependencies, acceptable downtime, and recovery priorities. What activity is this?": "Un equipo identifica procesos críticos, dependencias, tiempo de inactividad aceptable y prioridades de recuperación. ¿Qué actividad es?",
+  "A BIA identifies business recovery requirements.": "Un BIA identifica requisitos de recuperación del negocio.",
+  "Full backup": "Respaldo completo",
+  "An application collects precise location even though approximate city is enough for the service. Which privacy principle is most relevant?": "Una aplicación recopila ubicación precisa aunque ciudad aproximada basta para el servicio. ¿Qué principio de privacidad es más relevante?",
+  "Data minimization limits collection to what is needed.": "La minimización limita la recopilación a lo necesario.",
+  "$50,000": "$50,000",
+  "$25,000": "$25,000",
+  "$200,000": "$200,000",
+  "$800,000": "$800,000",
+  "An asset is worth $200,000 and a scenario would affect 25 percent of its value. What is the SLE?": "Un activo vale $200,000 y un escenario afectaría 25 por ciento de su valor. ¿Cuál es el SLE?",
+  "SLE equals asset value times exposure factor: 200,000 x 0.25 = 50,000.": "SLE equivale a valor del activo por factor de exposición: 200,000 x 0.25 = 50,000.",
+  "Revoke and rotate the key": "Revocar y rotar la clave",
+  "Scan for exposed secrets": "Escanear secretos expuestos",
+  "Leave it because the commit was deleted": "Dejarla porque se borró el commit",
+  "Email the key to the team": "Enviar la clave por correo al equipo",
+  "A developer accidentally commits an API key to a public repository. Which actions are best?": "Un desarrollador sube accidentalmente una clave API a un repositorio público. ¿Qué acciones son mejores?",
+  "Exposed secrets should be revoked and rotated; scanning helps find other exposures.": "Secretos expuestos deben revocarse y rotarse; el escaneo ayuda a encontrar otras exposiciones.",
+  "Cloud audit logs": "Registros de auditoría de nube",
+  "Object lifecycle tiering": "Ciclo de vida de objetos",
+  "RAID 10": "RAID 10",
+  "Screen privacy filter": "Filtro de privacidad de pantalla",
+  "Which cloud control most directly helps investigate who changed a security group rule?": "¿Qué control de nube ayuda más directamente a investigar quién cambió una regla de grupo de seguridad?",
+  "Cloud audit logs record API activity and identity context.": "Los registros de auditoría de nube registran actividad API y contexto de identidad.",
+  "SBOM": "SBOM",
+  "NDA": "NDA",
+  "A new vulnerability is announced in a logging library. What artifact helps identify affected applications fastest?": "Se anuncia una nueva vulnerabilidad en una biblioteca de logging. ¿Qué artefacto ayuda a identificar aplicaciones afectadas más rápido?",
+  "An SBOM lists software components and dependencies.": "Un SBOM lista componentes y dependencias de software.",
+  "Software composition analysis": "Análisis de composición de software",
+  "Dependency pinning and review": "Fijación y revisión de dependencias",
+  "Screen locks": "Bloqueos de pantalla",
+  "Badge readers": "Lectores de credenciales",
+  "Which pipeline controls are most focused on third-party dependency risk?": "¿Qué controles de pipeline se enfocan más en riesgo de dependencias de terceros?",
+  "SCA and dependency governance help manage library risk.": "SCA y gobierno de dependencias ayudan a gestionar riesgo de bibliotecas.",
+  "Secret scanning": "Escaneo de secretos",
+  "Dynamic routing": "Enrutamiento dinámico",
+  "Token replay": "Repetición de tokens",
+  "A pre-commit hook blocks hard-coded passwords and tokens from entering source control. What control is this?": "Un hook pre-commit bloquea contraseñas y tokens hardcodeados antes de entrar al control de código. ¿Qué control es?",
+  "Secret scanning detects credentials before they are committed or deployed.": "El escaneo de secretos detecta credenciales antes de commit o despliegue.",
+  "Environmental controls": "Controles ambientales",
+  "A datacenter adds water sensors under raised floors and monitors humidity. What risk area is being addressed?": "Un datacenter agrega sensores de agua bajo piso elevado y monitorea humedad. ¿Qué área de riesgo aborda?",
+  "Water and humidity monitoring are environmental protections.": "Monitoreo de agua y humedad son protecciones ambientales.",
+  "Asset management": "Gestión de activos",
+  "Incident eradication": "Erradicación de incidentes",
+  "OCSP stapling": "OCSP stapling",
+  "RFID tags are required on equipment above a dollar threshold. Which program does this support most directly?": "Se requieren etiquetas RFID en equipos sobre cierto valor. ¿Qué programa apoya más directamente?",
+  "Asset tags support inventory and tracking.": "Las etiquetas de activos apoyan inventario y seguimiento.",
+  "Escalate according to the runbook": "Escalar según el runbook",
+  "Delete the alert": "Eliminar la alerta",
+  "Wait for the weekly report": "Esperar el informe semanal",
+  "Disable the SIEM": "Deshabilitar el SIEM",
+  "A Tier 1 SOC analyst confirms suspicious PowerShell activity and possible credential theft on an executive laptop. What should happen next?": "Un analista SOC Tier 1 confirma PowerShell sospechoso y posible robo de credenciales en la laptop de una ejecutiva. ¿Qué debe ocurrir después?",
+  "Confirmed high-impact activity should be escalated through the documented process.": "Actividad confirmada de alto impacto debe escalarse por el proceso documentado.",
+  "Security model that continuously verifies identity, device, context, and policy instead of trusting network location.": "Modelo que verifica continuamente identidad, dispositivo, contexto y política en vez de confiar por ubicación de red.",
+  "Cloud Security Posture Management; finds risky cloud configurations such as public storage or missing logs.": "Gestión de postura de seguridad en la nube; encuentra configuraciones riesgosas como almacenamiento público o registros faltantes.",
+  "CWPP": "CWPP",
+  "Cloud Workload Protection Platform; protects workloads such as VMs, containers, and serverless functions.": "Plataforma de protección de cargas de nube; protege VM, contenedores y funciones serverless.",
+  "Cloud Access Security Broker; gives visibility and policy enforcement for cloud app use.": "Broker de seguridad de acceso a la nube; da visibilidad y aplica políticas en apps de nube.",
+  "Software Bill of Materials; inventory of application components and dependencies.": "Lista de materiales de software; inventario de componentes y dependencias.",
+  "SCA": "SCA",
+  "Software Composition Analysis; scans third-party libraries for vulnerable or risky components.": "Análisis de composición de software; escanea bibliotecas de terceros por componentes vulnerables o riesgosos.",
+  "Security Orchestration, Automation, and Response; automates playbooks and tool integrations.": "Orquestación, automatización y respuesta de seguridad; automatiza playbooks e integraciones.",
+  "TTP": "TTP",
+  "Tactics, techniques, and procedures; the way an attacker behaves and operates.": "Tácticas, técnicas y procedimientos; la forma en que actúa un atacante.",
+  "Indicator of Compromise": "Indicador de compromiso",
+  "Observable clue such as a malicious IP, file hash, domain, or registry key.": "Pista observable como IP maliciosa, hash de archivo, dominio o clave de registro.",
+  "BOLA / IDOR": "BOLA / IDOR",
+  "Broken object-level authorization; users can access objects they do not own.": "Autorización rota a nivel de objeto; usuarios acceden a objetos que no les pertenecen.",
+  "Server-side request forgery; attacker tricks a server into making unintended requests.": "Falsificación de solicitudes del lado del servidor; el atacante hace que el servidor realice solicitudes no previstas.",
+  "PAM": "PAM",
+  "Privileged Access Management; controls, monitors, and limits administrator access.": "Gestión de acceso privilegiado; controla, monitorea y limita acceso administrativo.",
+  "Conditional Access": "Acceso condicional",
+  "Access decision based on signals such as user, device, location, risk, and MFA.": "Decisión de acceso basada en señales como usuario, dispositivo, ubicación, riesgo y MFA.",
+  "Hardware Security Module; tamper-resistant protection for high-value cryptographic keys.": "Módulo de seguridad hardware; protección resistente a manipulación para claves criptográficas de alto valor.",
+  "BIA": "BIA",
+  "Business Impact Analysis; identifies critical processes, dependencies, downtime, and recovery needs.": "Análisis de impacto al negocio; identifica procesos críticos, dependencias, inactividad y recuperación.",
+  "RTO vs RPO": "RTO vs RPO",
+  "RTO is how fast service must be restored; RPO is how much data loss is acceptable.": "RTO es qué tan rápido se restaura el servicio; RPO es cuánta pérdida de datos es aceptable.",
+  "Endpoint Detection and Response; records endpoint telemetry and supports investigation and containment.": "Detección y respuesta endpoint; registra telemetría y apoya investigación y contención.",
+  "UEM": "UEM",
+  "Unified Endpoint Management; manages mobile, desktop, and sometimes IoT device policy.": "Gestión unificada de endpoints; gestiona políticas de móviles, escritorios y a veces IoT.",
+  "Runbook": "Runbook",
+  "Documented response steps for common alerts or incidents.": "Pasos documentados de respuesta para alertas o incidentes comunes.",
+  "Security Exception": "Excepción de seguridad",
+  "Time-bound approval to deviate from a requirement with documented risk and compensating controls.": "Aprobación temporal para desviarse de un requisito con riesgo y controles compensatorios documentados.",
+  "Data Minimization": "Minimización de datos",
+  "Collect and retain only the personal data needed for the stated purpose.": "Recopilar y retener solo los datos personales necesarios para el propósito indicado.",
+  "Rogue wireless network that impersonates a legitimate SSID.": "Red inalámbrica falsa que suplanta un SSID legítimo.",
+  "Microsegmentation": "Microsegmentación",
+  "Small policy-controlled segments that limit lateral movement between workloads.": "Segmentos pequeños controlados por política que limitan movimiento lateral.",
+  "Cloud Guardrails": "Guardrails de nube",
+  "Preventive policies, defaults, and automation that keep cloud teams inside safe boundaries.": "Políticas preventivas, valores predeterminados y automatización que mantienen a equipos de nube en límites seguros.",
+  "Defense in depth": "Defensa en profundidad",
+  "Implicit deny": "Denegacion implicita",
+  "Open design": "Diseno abierto",
+  "A company relies on employees to report suspicious behavior, but also deploys automated alerting. Which concept best describes using people, process, and technology together?": "Una empresa depende de empleados para reportar comportamiento sospechoso, pero tambien despliega alertas automaticas. Que concepto describe mejor usar personas, proceso y tecnologia juntos?",
+  "Defense in depth layers administrative, technical, and physical controls.": "Defensa en profundidad combina controles administrativos, tecnicos y fisicos.",
+  "Fail safe versus fail secure": "Fail safe frente a fail secure",
+  "Hashing versus encryption": "Hashing frente a cifrado",
+  "RTO versus RPO": "RTO frente a RPO",
+  "SaaS versus PaaS": "SaaS frente a PaaS",
+  "An access control system unlocks doors during a life-safety emergency but locks a server cabinet when power is lost. What design idea is being balanced?": "Un sistema de control de acceso abre puertas durante una emergencia de vida, pero bloquea un gabinete de servidores cuando se pierde energia. Que idea de diseno se equilibra?",
+  "Safety-critical doors may fail open, while asset-protection locks may fail closed.": "Puertas criticas para seguridad humana pueden abrirse ante falla, mientras protecciones de activos pueden cerrarse.",
+  "Users are sent to a fake banking site after an attacker corrupts name resolution. What attack category best fits?": "Usuarios llegan a un sitio bancario falso despues de que un atacante corrompe la resolucion de nombres. Que categoria encaja mejor?",
+  "DNS poisoning manipulates name resolution to redirect victims.": "El envenenamiento DNS manipula resolucion de nombres para redirigir victimas.",
+  "DKIM": "DKIM",
+  "A switch places unmanaged laptops into a remediation VLAN until posture checks pass. What control is being used?": "Un switch coloca laptops no administradas en una VLAN de remediacion hasta que pasan verificaciones de postura. Que control se usa?",
+  "Network access control can evaluate device posture and assign network access dynamically.": "NAC puede evaluar postura del dispositivo y asignar acceso de red dinamicamente.",
+  "Wireless site survey": "Estudio de sitio inalambrico",
+  "A technician maps signal bleed into a parking lot and adjusts AP power and placement. What activity is this closest to?": "Un tecnico mapea fuga de senal hacia un estacionamiento y ajusta potencia y ubicacion de AP. A que actividad se parece mas?",
+  "A wireless site survey measures coverage, interference, and signal leakage.": "Un estudio de sitio inalambrico mide cobertura, interferencia y fuga de senal.",
+  "SQL injection": "Inyeccion SQL",
+  "A logged-in user is tricked into clicking a link that submits an unwanted account change to a site where she is already authenticated. What attack is this?": "Una usuaria autenticada es enganada para hacer clic en un enlace que envia un cambio no deseado a un sitio donde ya inicio sesion. Que ataque es?",
+  "Cross-site request forgery abuses a victim browser and existing session to submit unwanted actions.": "CSRF abusa del navegador de la victima y una sesion existente para enviar acciones no deseadas."
 };
 
 function t(text) {
@@ -4672,7 +6062,7 @@ function renderStudyDashboard(p) {
           <strong>${escapeHtml(readiness.label)}</strong>
           <small>${escapeHtml(readiness.note)}</small>
         </div>
-        <button class="mini-action" data-action="startFinalPractice">45 Q</button>
+        <button class="mini-action" data-action="startFinalPractice">90 Q</button>
       </div>
       <div class="weak-panel">
         <div class="section-heading">
@@ -4737,7 +6127,7 @@ function examReadiness() {
   if (score >= 85) return { score, level: "ready", label: t("Ready"), note: t("Recent final practice is in a strong pass range.") };
   if (score >= 70) return { score, level: "close", label: t("Almost Ready"), note: t("Keep drilling missed questions and weaker areas.") };
   if (score > 0) return { score, level: "build", label: t("Keep Practicing"), note: t("Use quick drills and review missed answers.") };
-  return { score: 0, level: "build", label: t("Start Practicing"), note: t("Run a quick drill or 45-question final to calibrate.") };
+  return { score: 0, level: "build", label: t("Start Practicing"), note: t("Run a quick drill or 90-question final to calibrate.") };
 }
 
 function applyVisibleSpanishFallback() {
@@ -4797,7 +6187,7 @@ function renderTopic() {
         ${rows}
         <button class="lesson-row" data-action="topicQuiz">
           <span class="mini-icon">Q</span>
-          <strong>${topic.id === "exam" ? escapeHtml(t("Start 45-question final practice")) : `${escapeHtml(t("Quiz"))}: ${escapeHtml(topic.title)}`}</strong>
+          <strong>${topic.id === "exam" ? escapeHtml(t("Start 90-question final practice")) : `${escapeHtml(t("Quiz"))}: ${escapeHtml(topic.title)}`}</strong>
           <span class="chevron">&rsaquo;</span>
         </button>
       </section>
@@ -4853,6 +6243,7 @@ function renderQuiz() {
   if (!current) return renderResults(questions);
   const answerRecord = state.answers[current.id];
   const checked = Boolean(answerRecord);
+  const multi = isMultiSelectQuestion(current);
   const selected = checked ? answerRecord.selected : state.selected;
   const answeredCount = Object.keys(state.answers).length;
   const percent = Math.round(((state.quizIndex + 1) / questions.length) * 100);
@@ -4865,12 +6256,15 @@ function renderQuiz() {
           <span>${answeredCount} ${escapeHtml(t("answered"))}</span>
         </div>
         <div class="quiz-meter" aria-hidden="true"><span style="width:${percent}%"></span></div>
+        ${multi ? `<div class="question-type">${escapeHtml(t("Select all that apply"))}</div>` : ""}
         <p class="question">${escapeHtml(current.prompt)}</p>
         <section class="answer-list">
           ${current.choices.map((choice, index) => {
-            let cls = selected === index ? "selected" : "";
-            if (checked && index === current.answer) cls += " correct";
-            if (checked && selected === index && index !== current.answer) cls += " wrong";
+            const isSelected = multi ? Array.isArray(selected) && selected.includes(index) : selected === index;
+            const isCorrect = isCorrectIndex(current, index);
+            let cls = isSelected ? "selected" : "";
+            if (checked && isCorrect) cls += " correct";
+            if (checked && isSelected && !isCorrect) cls += " wrong";
             return `
               <button class="answer ${cls}" data-answer="${index}">
                 <span class="answer-letter">${String.fromCharCode(65 + index)}</span>
@@ -5004,7 +6398,7 @@ function renderResults(questions) {
       <section class="score-card">
         <p>${correct} ${escapeHtml(t("of"))} ${questions.length} ${escapeHtml(t("correct"))}</p>
         <div class="score">${score}%</div>
-        <p>${escapeHtml(score >= 80 ? t("Strong pass pace. Review missed questions once, then run another 45-question set.") : t("Keep going. Tap review and focus on the explanations for missed questions."))}</p>
+        <p>${escapeHtml(score >= 80 ? t("Strong pass pace. Review missed questions once, then run another 90-question set.") : t("Keep going. Tap review and focus on the explanations for missed questions."))}</p>
         ${missed.length ? `<button class="pill-button" data-action="reviewMissed">${escapeHtml(t("Review Missed"))} (${missed.length})</button>` : ""}
         ${nextLesson ? `<button class="pill-button" data-action="quizNextLesson">${escapeHtml(t("Next Lesson"))}</button>` : ""}
         <button class="pill-button secondary" data-action="goHome">${escapeHtml(t("Home"))}</button>
@@ -5015,7 +6409,7 @@ function renderResults(questions) {
 }
 
 function quizTitle() {
-  if (state.quizMode === "final") return t("Fresh 45 Final");
+  if (state.quizMode === "final") return t("Fresh 90 Final");
   if (state.quizMode === "daily") return t("Daily Quick Drill");
   if (state.quizMode === "review") return t("Missed Questions");
   return `${topicById(state.topicId)?.title || t("Study")} ${t("Quiz")}`;
@@ -5026,9 +6420,9 @@ function renderChoiceBreakdown(question) {
     <div class="choice-breakdown">
       <strong>${escapeHtml(t("Answer breakdown"))}</strong>
       ${question.choices.map((choice, index) => `
-        <p class="${index === question.answer ? "right" : ""}">
+        <p class="${isCorrectIndex(question, index) ? "right" : ""}">
           <span>${String.fromCharCode(65 + index)}.</span>
-          ${escapeHtml(index === question.answer ? `${t("Correct")}: ${question.explanation}` : whyChoiceIsWrong(choice, question))}
+          ${escapeHtml(isCorrectIndex(question, index) ? `${t("Correct")}: ${question.explanation}` : whyChoiceIsWrong(choice, question))}
         </p>
       `).join("")}
     </div>
@@ -5124,7 +6518,7 @@ function startDailyDrill() {
   startQuiz("daily", {
     mode: "daily",
     sourceTopic: "daily",
-    questions: shuffle(fullQuestionBank).slice(0, 5)
+    questions: pickWithRecent(fullQuestionBank, DAILY_DRILL_SIZE, "daily")
   });
 }
 
@@ -5205,7 +6599,33 @@ function searchItems(query) {
 }
 
 function shuffle(items) {
-  return [...items].sort(() => Math.random() - 0.5);
+  const output = [...items];
+  for (let index = output.length - 1; index > 0; index -= 1) {
+    const swapIndex = randomIndex(index + 1);
+    [output[index], output[swapIndex]] = [output[swapIndex], output[index]];
+  }
+  return output;
+}
+
+function randomIndex(max) {
+  if (window.crypto?.getRandomValues) {
+    const values = new Uint32Array(1);
+    window.crypto.getRandomValues(values);
+    return values[0] % max;
+  }
+  return Math.floor(Math.random() * max);
+}
+
+function pickWithRecent(items, count, scope) {
+  const shuffled = shuffle(items);
+  const recentKey = `secplus-recent-${scope}`;
+  const recent = new Set(load(recentKey, []));
+  const fresh = shuffled.filter((item) => !recent.has(item.id));
+  const repeats = shuffled.filter((item) => recent.has(item.id));
+  const picked = [...fresh, ...repeats].slice(0, count);
+  const nextRecent = [...picked.map((item) => item.id), ...recent].slice(0, Math.max(count * 4, 80));
+  save(recentKey, nextRecent);
+  return picked;
 }
 
 function pickQuizSource(topicId) {
@@ -5213,53 +6633,86 @@ function pickQuizSource(topicId) {
     return balancedFinalQuestions();
   }
   if (topicId === "daily") {
-    return shuffle(fullQuestionBank).slice(0, 5);
+    return pickWithRecent(fullQuestionBank, DAILY_DRILL_SIZE, "daily");
   }
   const topicQuestions = fullQuestionBank.filter((item) => item.topic === topicId);
-  const limit = Math.min(8, topicQuestions.length);
+  const limit = Math.min(TOPIC_QUIZ_SIZE, topicQuestions.length);
   const trueFalse = topicQuestions.filter(isTrueFalseQuestion);
   if (trueFalse.length && limit > 1) {
-    const required = shuffle(trueFalse).slice(0, 1);
-    const rest = shuffle(topicQuestions.filter((item) => !required.some((picked) => picked.id === item.id))).slice(0, limit - 1);
+    const required = pickWithRecent(trueFalse, 1, `${topicId}-tf`);
+    const rest = pickWithRecent(topicQuestions.filter((item) => !required.some((picked) => picked.id === item.id)), limit - 1, topicId);
     return shuffle([...required, ...rest]);
   }
-  return shuffle(topicQuestions).slice(0, limit);
+  return pickWithRecent(topicQuestions, limit, topicId);
 }
 
 function balancedFinalQuestions() {
-  const buckets = {
-    foundations: ["principles", "iam", "crypto", "network-attacks", "network-design"],
-    defense: ["wireless", "app-attacks", "secure-dev", "endpoint", "cloud-security", "physical"],
-    operations: ["assessment", "incident", "governance", "risk-privacy"]
-  };
-  const picked = [
-    ...pickFromTopics(buckets.foundations, 15),
-    ...pickFromTopics(buckets.defense, 18),
-    ...pickFromTopics(buckets.operations, 12)
-  ];
-  const seen = new Set(picked.map((item) => item.id));
-  const fill = shuffle(fullQuestionBank.filter((item) => !seen.has(item.id))).slice(0, 45 - picked.length);
-  return shuffle([...picked, ...fill]).slice(0, 45);
+  const picked = [];
+  const seen = new Set();
+  FINAL_DOMAIN_PLAN.forEach((domain) => {
+    const candidates = fullQuestionBank.filter((item) => domain.topics.includes(item.topic) && !seen.has(item.id));
+    const selected = pickWithRecent(candidates, domain.count, `final-${domain.id}`);
+    selected.forEach((item) => {
+      if (!seen.has(item.id)) {
+        seen.add(item.id);
+        picked.push(item);
+      }
+    });
+  });
+  if (picked.length < FINAL_EXAM_SIZE) {
+    const fill = pickWithRecent(fullQuestionBank.filter((item) => !seen.has(item.id)), FINAL_EXAM_SIZE - picked.length, "final-fill");
+    fill.forEach((item) => {
+      if (!seen.has(item.id)) {
+        seen.add(item.id);
+        picked.push(item);
+      }
+    });
+  }
+  return shuffle(picked).slice(0, FINAL_EXAM_SIZE);
 }
 
 function pickFromTopics(topicIds, count) {
   const items = fullQuestionBank.filter((item) => topicIds.includes(item.topic));
-  return shuffle(items).slice(0, count);
+  return pickWithRecent(items, count, `topics-${topicIds.join("-")}`);
 }
 
 function randomizeQuestion(item) {
   if (isTrueFalseQuestion(item)) return { ...item };
-  const choices = item.choices.map((text, index) => ({ text, isCorrect: index === item.answer }));
+  const originalCorrect = Array.isArray(item.answers) ? item.answers : [item.answer];
+  const choices = item.choices.map((text, index) => ({ text, isCorrect: originalCorrect.includes(index) }));
   const shuffledChoices = shuffle(choices);
-  return {
+  const randomized = {
     ...item,
-    choices: shuffledChoices.map((choice) => choice.text),
-    answer: shuffledChoices.findIndex((choice) => choice.isCorrect)
+    choices: shuffledChoices.map((choice) => choice.text)
   };
+  const correct = shuffledChoices
+    .map((choice, index) => choice.isCorrect ? index : -1)
+    .filter((index) => index >= 0);
+  if (Array.isArray(item.answers)) randomized.answers = correct;
+  else randomized.answer = correct[0];
+  return randomized;
 }
 
 function isTrueFalseQuestion(item) {
-  return item.choices.length === 2 && item.choices.includes("True") && item.choices.includes("False");
+  return !Array.isArray(item.answers) && item.choices.length === 2 && item.choices.includes("True") && item.choices.includes("False");
+}
+
+function isMultiSelectQuestion(item) {
+  return Array.isArray(item.answers);
+}
+
+function correctIndexes(item) {
+  return isMultiSelectQuestion(item) ? item.answers : [item.answer];
+}
+
+function isCorrectIndex(item, index) {
+  return correctIndexes(item).includes(index);
+}
+
+function sameAnswerSet(selected, correct) {
+  const left = [...selected].sort((a, b) => a - b);
+  const right = [...correct].sort((a, b) => a - b);
+  return left.length === right.length && left.every((value, index) => value === right[index]);
 }
 
 function serviceHint(choice) {
@@ -5330,7 +6783,15 @@ function wire() {
     button.addEventListener("click", () => {
       const current = currentQuestion();
       if (state.answers[current.id]) return;
-      state.selected = Number(button.dataset.answer);
+      const index = Number(button.dataset.answer);
+      if (isMultiSelectQuestion(current)) {
+        const selected = Array.isArray(state.selected) ? [...state.selected] : [];
+        state.selected = selected.includes(index)
+          ? selected.filter((item) => item !== index)
+          : [...selected, index];
+      } else {
+        state.selected = index;
+      }
       render();
     });
   });
@@ -5530,19 +6991,34 @@ function moveLesson(delta) {
 
 function checkAnswer() {
   const current = currentQuestion();
-  if (!current || state.answers[current.id] || state.selected === null) return;
-  state.answers[current.id] = {
-    selected: state.selected,
-    correct: state.selected === current.answer
-  };
+  if (!current || state.answers[current.id]) return;
+  if (isMultiSelectQuestion(current)) {
+    if (!Array.isArray(state.selected) || !state.selected.length) return;
+    const selected = [...state.selected].sort((a, b) => a - b);
+    state.answers[current.id] = {
+      selected,
+      correct: sameAnswerSet(selected, current.answers)
+    };
+  } else {
+    if (state.selected === null) return;
+    state.answers[current.id] = {
+      selected: state.selected,
+      correct: state.selected === current.answer
+    };
+  }
   render();
 }
 
 function showAnswer() {
   const current = currentQuestion();
   if (!current || state.answers[current.id]) return;
-  state.selected = current.answer;
-  state.answers[current.id] = { selected: current.answer, correct: true };
+  if (isMultiSelectQuestion(current)) {
+    state.selected = [...current.answers];
+    state.answers[current.id] = { selected: [...current.answers], correct: true };
+  } else {
+    state.selected = current.answer;
+    state.answers[current.id] = { selected: current.answer, correct: true };
+  }
   render();
 }
 

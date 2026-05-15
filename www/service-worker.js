@@ -1,4 +1,4 @@
-const CACHE_NAME = "blue-cloud-academy-v18";
+const CACHE_NAME = "check-on-it-cyber-academy-v3";
 const APP_ASSETS = [
   "./",
   "./index.html",

@@ -4,8 +4,8 @@
   "description": "Swipeable cyber study app with quizzes, flash cards, and Spanish study mode.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#09030a",
-  "theme_color": "#09030a",
+  "background_color": "#090611",
+  "theme_color": "#130b24",
   "orientation": "portrait",
   "icons": [
     {
