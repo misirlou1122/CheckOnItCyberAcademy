@@ -6047,6 +6047,7 @@ function renderHome() {
           </button>
         `).join("")}
       </section>
+      <p class="authorship-notice">© 2026 Bianca Russek. Authored by Bianca Russek. First created May 15, 2026. All rights reserved.</p>
     </main>
   `;
 }
