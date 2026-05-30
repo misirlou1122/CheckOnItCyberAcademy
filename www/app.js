@@ -4077,6 +4077,391 @@ const flashCardBank = [
   }
 ];
 
+const uploadedMaterialExpansion = {
+  lessons: [
+    {
+      topic: "incident",
+      lesson: {
+        title: "SOC Triage Workflow",
+        body: [
+          "A SOC analyst starts by validating whether an alert represents suspicious activity, benign behavior, a duplicate, or a known false positive.",
+          "Triage depends on context: asset criticality, user role, alert source, timestamp sequence, recent changes, threat intelligence, and whether the activity matches normal baselines.",
+          "Escalation should include a concise summary, affected users or hosts, observed indicators, evidence sources, suspected tactic, business impact, and recommended next action."
+        ],
+        remember: "Triage is not just noticing an alert; it is deciding priority, confidence, scope, and next owner.",
+        sections: [
+          {
+            title: "Analyst Checklist",
+            items: [
+              "Confirm the alert source and timestamp.",
+              "Identify the affected asset, user, and data sensitivity.",
+              "Correlate with authentication, endpoint, DNS, proxy, firewall, and cloud logs.",
+              "Decide whether to close, tune, monitor, contain, or escalate."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "incident",
+      lesson: {
+        title: "Evidence Handling And Legal Hold",
+        body: [
+          "Evidence handling preserves integrity and admissibility. Document who collected evidence, when it was collected, where it was stored, and every transfer of custody.",
+          "A legal hold preserves potentially relevant data when litigation, investigation, or regulatory review is expected. It can pause normal retention or deletion workflows.",
+          "Forensics should minimize changes to original evidence. Use hashes, images, write blockers, documented commands, and controlled access where appropriate."
+        ],
+        remember: "Evidence that cannot be trusted or traced may be useless even if it contains the right facts.",
+        sections: [
+          {
+            title: "Exam Clues",
+            items: [
+              "Chain of custody means documented evidence handling.",
+              "Legal hold means preserve data that might otherwise be deleted.",
+              "Hash values help prove evidence did not change."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "assessment",
+      lesson: {
+        title: "Vulnerability Prioritization",
+        body: [
+          "Scanner severity is only the starting point. Prioritize using exploitability, exposure, asset criticality, business impact, compensating controls, threat intelligence, and regulatory impact.",
+          "Internet-facing exploitable flaws on critical systems usually outrank higher-numbered findings on isolated or low-value systems.",
+          "Validation closes the loop. After patching or configuration change, rescan, verify version, check configuration state, or collect audit evidence."
+        ],
+        remember: "The best remediation order combines technical severity with business exposure.",
+        sections: [
+          {
+            title: "Common Signals",
+            items: [
+              "CVE identifies the vulnerability.",
+              "CVSS estimates technical severity.",
+              "Asset criticality and exposure turn severity into practical priority."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "governance",
+      lesson: {
+        title: "Audit Evidence And Exceptions",
+        body: [
+          "Audits and assessments need evidence that controls exist, operate, and are reviewed. Evidence can include tickets, screenshots, logs, approvals, reports, configurations, and attestations.",
+          "An exception documents an approved deviation from policy or standard. Strong exceptions include owner, reason, risk, compensating controls, approval, expiration date, and review plan.",
+          "Attestation is a formal confirmation, often by managers or data owners, that access, controls, or statements remain accurate."
+        ],
+        remember: "Governance turns security work into accountable, reviewable evidence.",
+        sections: [
+          {
+            title: "Document Match",
+            items: [
+              "Policy states intent.",
+              "Standard defines mandatory requirements.",
+              "Procedure gives steps.",
+              "Exception records approved noncompliance."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "risk-privacy",
+      lesson: {
+        title: "Third-Party Risk Lifecycle",
+        body: [
+          "Third-party risk starts before purchase with due diligence, questionnaires, security evidence, data handling review, and agreement terms.",
+          "Contracts should define service levels, breach notification, data protection, right to audit, confidentiality, subcontractor rules, and termination duties.",
+          "Monitoring continues after onboarding because vendor access, control maturity, personnel, and service scope can change."
+        ],
+        remember: "Outsourcing a service does not outsource accountability for the risk.",
+        sections: [
+          {
+            title: "Agreement Clues",
+            items: [
+              "SLA defines measurable service commitments.",
+              "NDA protects confidential information.",
+              "Right-to-audit allows agreed review of provider controls.",
+              "Rules of engagement define scope and limits for testing."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "cloud-security",
+      lesson: {
+        title: "Cloud Misconfiguration Patterns",
+        body: [
+          "Cloud incidents often come from misconfiguration rather than provider failure: public storage, overbroad IAM roles, exposed management ports, permissive security groups, weak logging, or unmanaged secrets.",
+          "Guardrails reduce repeat mistakes. Use policy enforcement, secure defaults, infrastructure as code review, least privilege, tagging, logging, and automated detection.",
+          "Shared responsibility questions ask which layer the customer controls. Identity, data, access policies, and workload configuration are usually customer responsibilities."
+        ],
+        remember: "In cloud scenarios, ask whether the risk is identity, exposure, data location, logging, or configuration drift."
+      }
+    },
+    {
+      topic: "iam",
+      lesson: {
+        title: "Provisioning, Reviews, And PAM",
+        body: [
+          "Provisioning grants accounts and access. Deprovisioning removes or disables access when a user leaves, changes role, or no longer needs a resource.",
+          "Access reviews reduce privilege creep by confirming that permissions still match current job duties.",
+          "Privileged access management reduces administrator risk with vaulting, approval workflows, just-in-time elevation, session monitoring, break-glass controls, and account discovery."
+        ],
+        remember: "Standing privilege is convenient for attackers; temporary, approved privilege is easier to defend."
+      }
+    },
+    {
+      topic: "secure-dev",
+      lesson: {
+        title: "Software Supply Chain Defenses",
+        body: [
+          "Software supply chain attacks target dependencies, build systems, CI/CD secrets, update channels, repositories, or signed packages.",
+          "Defenses include dependency pinning, package monitoring, SBOM awareness, code signing, branch protection, secrets scanning, build isolation, and review of third-party libraries.",
+          "A trusted update path is powerful. Protecting signing keys and release pipelines is as important as protecting production servers."
+        ],
+        remember: "If users trust the update, attackers want the build and signing path."
+      }
+    }
+  ],
+  questions: [
+    {
+      id: "incident-soc-triage-1",
+      topic: "incident",
+      prompt: "A SIEM alert fires for a suspicious login. Which first triage action is best?",
+      choices: ["Validate context with related logs and asset details", "Erase the user's mailbox", "Disable every account in the domain", "Publish the incident report immediately"],
+      answer: 0,
+      explanation: "Triage starts by validating context, scope, and confidence before disruptive response actions."
+    },
+    {
+      id: "incident-soc-escalate-1",
+      topic: "incident",
+      prompt: "Which detail is most useful in an escalation summary?",
+      choices: ["Affected host, user, evidence, impact, and recommended next action", "Only the analyst's shift schedule", "A list of unrelated open tickets", "The vendor's marketing description"],
+      answer: 0,
+      explanation: "Escalation should give the next owner enough evidence and context to act quickly."
+    },
+    {
+      id: "incident-chain-2",
+      topic: "incident",
+      prompt: "Which record documents who collected, stored, transferred, and analyzed evidence?",
+      choices: ["Chain of custody", "Risk appetite", "SLA", "SPF"],
+      answer: 0,
+      explanation: "Chain of custody documents evidence handling across its lifecycle."
+    },
+    {
+      id: "incident-legal-hold-1",
+      topic: "incident",
+      prompt: "A company must pause deletion of mailboxes related to pending litigation. What is required?",
+      choices: ["Legal hold", "DNSSEC", "NAT", "Geofencing"],
+      answer: 0,
+      explanation: "Legal hold preserves data that may be relevant to litigation or investigation."
+    },
+    {
+      id: "incident-hash-evidence-1",
+      topic: "incident",
+      prompt: "Why hash a forensic disk image immediately after acquisition?",
+      choices: ["To prove the image has not changed", "To compress the image", "To decrypt all files", "To classify the data automatically"],
+      answer: 0,
+      explanation: "A matching hash later supports evidence integrity."
+    },
+    {
+      id: "assessment-priority-1",
+      topic: "assessment",
+      prompt: "Which vulnerability should usually be prioritized first?",
+      choices: ["Exploitable internet-facing flaw on a critical payment server", "Low-risk finding on an isolated lab host", "Informational banner on a retired system", "A patched vulnerability with verified remediation"],
+      answer: 0,
+      explanation: "Exploitability, exposure, and asset criticality make the payment server finding higher priority."
+    },
+    {
+      id: "assessment-validation-1",
+      topic: "assessment",
+      prompt: "After a patch is deployed, which step best validates remediation?",
+      choices: ["Rescan or verify the fixed version/configuration", "Delete all vulnerability reports", "Disable all future scans", "Accept the risk forever"],
+      answer: 0,
+      explanation: "Validation proves that remediation worked."
+    },
+    {
+      id: "assessment-cvss-1",
+      topic: "assessment",
+      prompt: "CVSS is best used to describe what?",
+      choices: ["Technical severity of a vulnerability", "The legal owner of evidence", "A mail authentication policy", "A backup retention period"],
+      answer: 0,
+      explanation: "CVSS provides a standardized technical severity score."
+    },
+    {
+      id: "governance-exception-1",
+      topic: "governance",
+      prompt: "A system cannot meet a password standard for 60 days, and management approves compensating monitoring. What should document this?",
+      choices: ["Policy exception", "Rainbow table", "Packet capture", "Certificate signing request"],
+      answer: 0,
+      explanation: "A policy exception records approved deviation, risk, compensating controls, owner, and expiration."
+    },
+    {
+      id: "governance-attestation-1",
+      topic: "governance",
+      prompt: "Managers periodically confirm that their employees still need assigned access. What is this called?",
+      choices: ["Attestation", "Vishing", "Tokenization", "Jamming"],
+      answer: 0,
+      explanation: "Attestation is formal confirmation that access or control statements remain accurate."
+    },
+    {
+      id: "governance-evidence-1",
+      topic: "governance",
+      prompt: "An auditor asks for proof that quarterly access reviews occurred. What is the best response?",
+      choices: ["Provide tickets, approvals, review logs, or signed attestations", "Say the control probably happened", "Disable the access review process", "Send only the network diagram"],
+      answer: 0,
+      explanation: "Audits rely on evidence showing the control operated."
+    },
+    {
+      id: "risk-vendor-sla-1",
+      topic: "risk-privacy",
+      prompt: "Which agreement defines measurable uptime or response-time commitments from a service provider?",
+      choices: ["SLA", "NDA", "MOU", "CSR"],
+      answer: 0,
+      explanation: "A service level agreement defines measurable service commitments."
+    },
+    {
+      id: "risk-right-audit-1",
+      topic: "risk-privacy",
+      prompt: "A customer wants contractual permission to review a vendor's controls. Which clause is most relevant?",
+      choices: ["Right-to-audit", "Split tunnel", "MX preference", "DHCP lease"],
+      answer: 0,
+      explanation: "A right-to-audit clause allows agreed assessment or review of provider controls."
+    },
+    {
+      id: "risk-third-party-ongoing-1",
+      topic: "risk-privacy",
+      prompt: "Why monitor vendors after onboarding?",
+      choices: ["Vendor risk changes as access, services, and controls change", "Contracts remove all future risk", "Monitoring is only needed before purchase", "Vendors cannot affect customer data"],
+      answer: 0,
+      explanation: "Third-party risk must be monitored through the relationship, not only at selection."
+    },
+    {
+      id: "cloud-misconfig-public-1",
+      topic: "cloud-security",
+      prompt: "A storage bucket containing customer records is readable by anyone on the internet. What is the most likely issue?",
+      choices: ["Cloud misconfiguration", "Certificate revocation", "Bluejacking", "Key stretching"],
+      answer: 0,
+      explanation: "Public storage exposure is a common cloud configuration failure."
+    },
+    {
+      id: "cloud-guardrail-1",
+      topic: "cloud-security",
+      prompt: "Which control best prevents teams from creating public storage by mistake?",
+      choices: ["Policy guardrail that denies public storage settings", "A printed poster only", "Disabling all logging", "Using default credentials"],
+      answer: 0,
+      explanation: "Preventive cloud policies can enforce safe configuration at creation time."
+    },
+    {
+      id: "cloud-shared-identity-1",
+      topic: "cloud-security",
+      prompt: "In most cloud shared-responsibility models, who is responsible for customer IAM policies?",
+      choices: ["The customer", "The power company", "The browser vendor only", "No one"],
+      answer: 0,
+      explanation: "Customers usually own identity, access, data, and workload configuration decisions."
+    },
+    {
+      id: "iam-pam-jit-1",
+      topic: "iam",
+      prompt: "Which control best reduces standing administrator privilege?",
+      choices: ["Just-in-time privileged access", "Shared root passwords", "Permanent global admin for every technician", "Anonymous management access"],
+      answer: 0,
+      explanation: "JIT privileged access grants elevated rights only when approved and needed."
+    },
+    {
+      id: "iam-deprovision-2",
+      topic: "iam",
+      prompt: "An employee leaves the company. Which action prevents orphaned access?",
+      choices: ["Deprovision accounts and revoke tokens/sessions", "Leave accounts active for convenience", "Remove only the office chair", "Disable log collection"],
+      answer: 0,
+      explanation: "Deprovisioning removes access after departure or role change."
+    },
+    {
+      id: "securedev-sbom-1",
+      topic: "secure-dev",
+      prompt: "Which artifact lists software components and dependencies used in an application?",
+      choices: ["SBOM", "RPO", "SLA", "ACL"],
+      answer: 0,
+      explanation: "A software bill of materials lists components and dependencies."
+    },
+    {
+      id: "securedev-signing-key-1",
+      topic: "secure-dev",
+      prompt: "Why protect code-signing keys carefully?",
+      choices: ["A stolen signing key can make malicious updates appear trusted", "Signing keys improve Wi-Fi range", "They replace all testing", "They are only used for printing"],
+      answer: 0,
+      explanation: "Compromised signing keys can undermine trust in the release process."
+    },
+    {
+      id: "securedev-dependency-1",
+      topic: "secure-dev",
+      prompt: "A newly disclosed flaw affects a third-party package used by production apps. Which process helps most?",
+      choices: ["Dependency monitoring and patch management", "Tailgating", "RF shielding", "Dumpster diving"],
+      answer: 0,
+      explanation: "Dependency monitoring identifies vulnerable packages so teams can update or mitigate them."
+    },
+    {
+      id: "incident-framework-attck-1",
+      topic: "incident",
+      prompt: "Which framework helps classify adversary tactics and techniques for detection and hunting?",
+      choices: ["MITRE ATT&CK", "SLA", "NDA", "WPS"],
+      answer: 0,
+      explanation: "MITRE ATT&CK organizes adversary tactics, techniques, and procedures."
+    },
+    {
+      id: "incident-threat-hunt-1",
+      topic: "incident",
+      prompt: "A team forms a hypothesis that an attacker may be using PowerShell for lateral movement and searches logs proactively. What is this?",
+      choices: ["Threat hunting", "Risk transfer", "Data masking", "Port mirroring only"],
+      answer: 0,
+      explanation: "Threat hunting proactively searches for attacker behavior that automated alerts may miss."
+    }
+  ],
+  flashCards: [
+    { id: "card-soc-triage", topic: "incident", term: "SOC Triage", definition: "Process of validating, prioritizing, scoping, and routing alerts for response." },
+    { id: "card-escalation-summary", topic: "incident", term: "Escalation Summary", definition: "Concise evidence package with affected assets, indicators, impact, and recommended next action." },
+    { id: "card-chain-custody-deep", topic: "incident", term: "Chain of Custody", definition: "Documented history of evidence collection, storage, transfer, and analysis." },
+    { id: "card-legal-hold", topic: "incident", term: "Legal Hold", definition: "Requirement to preserve potentially relevant data for investigation or litigation." },
+    { id: "card-threat-hunting", topic: "incident", term: "Threat Hunting", definition: "Hypothesis-driven search for attacker activity that alerts may not catch." },
+    { id: "card-mitre-attack", topic: "incident", term: "MITRE ATT&CK", definition: "Knowledge base of adversary tactics, techniques, and procedures." },
+    { id: "card-cvss", topic: "assessment", term: "CVSS", definition: "Standard scoring system for technical vulnerability severity." },
+    { id: "card-vuln-priority", topic: "assessment", term: "Vulnerability Prioritization", definition: "Ranking fixes using severity, exposure, exploitability, asset value, and business impact." },
+    { id: "card-remediation-validation", topic: "assessment", term: "Remediation Validation", definition: "Rescan, verify, or audit to prove a vulnerability was fixed." },
+    { id: "card-policy-exception", topic: "governance", term: "Policy Exception", definition: "Approved temporary deviation with owner, risk, compensating controls, and expiration." },
+    { id: "card-attestation", topic: "governance", term: "Attestation", definition: "Formal confirmation that access, control status, or a statement remains accurate." },
+    { id: "card-audit-evidence", topic: "governance", term: "Audit Evidence", definition: "Artifacts proving a control exists and operated, such as logs, tickets, approvals, or reports." },
+    { id: "card-sla", topic: "risk-privacy", term: "SLA", definition: "Service level agreement with measurable service commitments." },
+    { id: "card-right-to-audit", topic: "risk-privacy", term: "Right-to-Audit", definition: "Contract clause allowing agreed review of a provider's controls." },
+    { id: "card-rules-engagement", topic: "risk-privacy", term: "Rules of Engagement", definition: "Scope, limits, authorization, and procedures for testing or assessment." },
+    { id: "card-cloud-misconfig", topic: "cloud-security", term: "Cloud Misconfiguration", definition: "Incorrect cloud setting such as public storage, overbroad IAM, exposed ports, or missing logs." },
+    { id: "card-shared-responsibility-iam", topic: "cloud-security", term: "Customer Cloud Responsibilities", definition: "Usually identity, data, access policy, workload configuration, and logging choices." },
+    { id: "card-pam", topic: "iam", term: "PAM", definition: "Privileged access management for administrator account control and monitoring." },
+    { id: "card-jit-access", topic: "iam", term: "JIT Access", definition: "Temporary approved elevation instead of permanent privileged access." },
+    { id: "card-sbom", topic: "secure-dev", term: "SBOM", definition: "Software bill of materials listing application components and dependencies." },
+    { id: "card-code-signing-key", topic: "secure-dev", term: "Code-Signing Key", definition: "Private key used to sign trusted software releases; high-value supply-chain target." },
+    { id: "card-dependency-monitoring", topic: "secure-dev", term: "Dependency Monitoring", definition: "Tracking third-party packages for vulnerabilities, updates, and supply-chain risk." }
+  ]
+};
+
+uploadedMaterialExpansion.lessons.forEach(({ topic, lesson }) => {
+  const target = topics.find((item) => item.id === topic);
+  if (target && !target.lessons.some((item) => item.title === lesson.title)) target.lessons.push(lesson);
+});
+
+uploadedMaterialExpansion.questions.forEach((question) => {
+  if (!fullQuestionBank.some((item) => item.id === question.id)) fullQuestionBank.push(question);
+});
+
+uploadedMaterialExpansion.flashCards.forEach((card) => {
+  if (!flashCardBank.some((item) => item.id === card.id)) flashCardBank.push(card);
+});
+
 const ORIGINAL_DATA = {
   topics: deepClone(topics),
   fullQuestionBank: deepClone(fullQuestionBank),
