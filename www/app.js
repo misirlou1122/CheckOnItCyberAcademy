@@ -4449,6 +4449,908 @@ const uploadedMaterialExpansion = {
   ]
 };
 
+const sy0701ObjectivesExpansion = {
+  lessons: [
+    {
+      topic: "exam",
+      lesson: {
+        title: "PDF-Aligned Study Plan",
+        body: [
+          "Use the official SY0-701 objective map as a coverage checklist, then practice recognizing controls inside short business scenarios.",
+          "The heaviest practice time should go to operations, threats, program oversight, architecture, and then general concepts in that order.",
+          "For each objective, train three layers: the definition, the scenario clue, and the reason a similar answer is less exact."
+        ],
+        remember: "A passing study plan checks coverage, scenario judgment, and pacing together.",
+        sections: [
+          {
+            title: "Weekly Rotation",
+            items: [
+              "Day 1: general concepts, controls, Zero Trust, and cryptography.",
+              "Day 2: threats, vectors, vulnerabilities, indicators, and mitigations.",
+              "Day 3: architecture, data protection, resilience, and hardening.",
+              "Day 4: operations, monitoring, IAM, automation, and incident response.",
+              "Day 5: governance, risk, third parties, compliance, audits, and awareness."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "principles",
+      lesson: {
+        title: "Controls, Zero Trust, And Deception",
+        body: [
+          "Security controls can be grouped by category, such as technical, managerial, operational, and physical. They can also be grouped by purpose, such as preventive, detective, corrective, compensating, deterrent, or directive.",
+          "Zero Trust uses policy and enforcement to avoid automatic trust. Identity, device posture, context, and requested access are continuously evaluated before access is allowed.",
+          "Deception technologies such as honeypots, honeynets, honeyfiles, and honeytokens create monitored traps that reveal suspicious activity without exposing production assets."
+        ],
+        remember: "Category says what kind of control it is; type says what the control is trying to do.",
+        sections: [
+          {
+            title: "Exam Clues",
+            items: [
+              "A standard, policy, or risk committee usually points to managerial or operational control language.",
+              "A firewall, EDR agent, MFA prompt, or DLP rule usually points to a technical control.",
+              "A fake credential, decoy file, or monitored fake system points to deception and disruption."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "governance",
+      lesson: {
+        title: "Change Management Security",
+        body: [
+          "Secure change management reduces outage and security risk by requiring ownership, stakeholder review, impact analysis, test evidence, backout planning, and a maintenance window when needed.",
+          "Security review should look for changes to allow lists, deny lists, permissions, service restarts, dependencies, legacy applications, and restricted activities.",
+          "Good documentation keeps diagrams, policies, procedures, standard operating procedures, and version history aligned with the current environment."
+        ],
+        remember: "A secure change is approved, tested, reversible, documented, and scheduled.",
+        sections: [
+          {
+            title: "Before Approval",
+            items: [
+              "Identify the owner and affected stakeholders.",
+              "Analyze security, business, and operational impact.",
+              "Confirm test results and rollback steps.",
+              "Update diagrams and procedures after implementation."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "crypto",
+      lesson: {
+        title: "Cryptographic Solution Selection",
+        body: [
+          "Choose encryption scope based on the asset and state: full disk, partition, file, volume, database, record, or transport encryption each protects a different boundary.",
+          "Key protection tools include TPMs, HSMs, key management systems, and secure enclaves. Escrow and recovery decisions should match business and legal requirements.",
+          "Hashing, salting, key stretching, tokenization, masking, steganography, and digital signatures solve different problems, so avoid treating every crypto term as encryption."
+        ],
+        remember: "Match crypto to the goal: hide data, prove integrity, bind identity, protect keys, or reduce sensitive data exposure.",
+        sections: [
+          {
+            title: "Certificate Clues",
+            items: [
+              "A CSR starts a certificate request.",
+              "A CRL or OCSP check asks whether a certificate is revoked.",
+              "A wildcard certificate covers multiple names under the same domain.",
+              "A root of trust anchors the certificate chain."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "network-attacks",
+      lesson: {
+        title: "Threat Actors, Vectors, And Indicators",
+        body: [
+          "Threat actor questions often combine actor type, capability, location, and motivation. Nation-state, organized crime, insiders, hacktivists, unskilled attackers, and shadow IT leave different clues.",
+          "Attack vectors include messaging, files, images, voice calls, removable devices, vulnerable software, unsupported systems, unsecure networks, exposed ports, default credentials, supply chain paths, and human trust.",
+          "Indicators such as account lockouts, impossible travel, concurrent sessions, missing logs, resource spikes, out-of-cycle logging, and unavailable systems help connect symptoms to likely activity."
+        ],
+        remember: "Actor plus motive plus path plus indicator usually reveals the scenario.",
+        sections: [
+          {
+            title: "Social Engineering Variants",
+            items: [
+              "Business email compromise targets payment, payroll, or executive trust.",
+              "Pretexting invents a believable reason for the request.",
+              "Watering hole attacks compromise a site the victim group already visits.",
+              "Typosquatting relies on look-alike domains and typing mistakes."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "app-attacks",
+      lesson: {
+        title: "Vulnerability Types Beyond Injection",
+        body: [
+          "Application vulnerabilities include memory injection, buffer overflow, race conditions, malicious updates, insecure object access, and weak input handling.",
+          "A race condition appears when security depends on timing, such as checking a value and using it later after it may have changed.",
+          "Virtualization, hardware, mobile, cloud, cryptographic, supply chain, and misconfiguration weaknesses may appear in app-adjacent scenarios even when the answer is not an OWASP-style web flaw."
+        ],
+        remember: "Do not force every application scenario into SQL injection or XSS; timing, memory, update, and object-access clues matter.",
+        sections: [
+          {
+            title: "High-Yield Pairs",
+            items: [
+              "TOC/TOU means time-of-check and time-of-use mismatch.",
+              "VM escape means code breaks isolation from a guest into the host.",
+              "Side loading means installing apps outside the trusted app source.",
+              "Jailbreaking removes mobile platform restrictions."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "endpoint",
+      lesson: {
+        title: "Mitigation And Hardening Map",
+        body: [
+          "Mitigation techniques reduce the chance or impact of exploitation. Common examples are segmentation, access control, application allow lists, isolation, patching, encryption, monitoring, least privilege, and configuration enforcement.",
+          "Endpoint hardening removes unnecessary software, disables unused ports and protocols, changes default passwords, enables host firewalls, and deploys endpoint protection or host-based intrusion prevention.",
+          "Decommissioning is a security action when unsupported systems, stale services, or unused assets create risk that cannot be patched well."
+        ],
+        remember: "Mitigation is the bridge between knowing a weakness and reducing real exposure.",
+        sections: [
+          {
+            title: "Hardening Order",
+            items: [
+              "Start from an approved secure baseline.",
+              "Remove or disable what is not needed.",
+              "Patch and configure the remaining services.",
+              "Monitor for drift and reapply enforcement."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "cloud-security",
+      lesson: {
+        title: "Architecture Model Tradeoffs",
+        body: [
+          "Architecture questions compare deployment models and constraints: cloud, hybrid, on-premises, serverless, microservices, containers, virtualization, IoT, embedded systems, RTOS, ICS, SCADA, and high availability designs.",
+          "Cloud and third-party models can transfer some operational work, but they do not remove customer responsibility for identity, data, configuration, monitoring, and risk decisions.",
+          "IaC, containers, and serverless improve repeatability and scale, but they also make insecure templates, secrets, permissions, and pipeline controls more important."
+        ],
+        remember: "Model questions ask what risk moves, what control remains, and what new dependency appears.",
+        sections: [
+          {
+            title: "Common Tradeoffs",
+            items: [
+              "Air-gapped or isolated environments reduce connectivity but complicate updates.",
+              "Centralized designs simplify governance but can create concentration risk.",
+              "Decentralized designs improve local control but can drift without standards.",
+              "ICS and embedded systems may be difficult or unsafe to patch quickly."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "network-design",
+      lesson: {
+        title: "Enterprise Infrastructure Controls",
+        body: [
+          "Secure infrastructure design considers device placement, zones, attack surface, connectivity, failure modes, and whether devices inspect inline, passively, actively, through a tap, or through a monitor port.",
+          "Common appliances include jump servers, proxies, sensors, load balancers, WAFs, UTMs, NGFWs, IDS, and IPS. The best answer depends on where the traffic must be observed or controlled.",
+          "Secure access choices include VPN, TLS tunnels, IPSec, SD-WAN, SASE, port security, 802.1X, and EAP-based authentication."
+        ],
+        remember: "Place the control where it can see or enforce the traffic named in the question.",
+        sections: [
+          {
+            title: "Failure Mode Clues",
+            items: [
+              "Fail-open favors availability or life safety.",
+              "Fail-closed favors asset protection and containment.",
+              "Inline controls can block traffic.",
+              "Passive or tap-based controls observe without directly blocking."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "risk-privacy",
+      lesson: {
+        title: "Data Classification And Protection",
+        body: [
+          "Data protection begins by classifying the data: public, private, sensitive, confidential, restricted, critical, regulated, trade secret, legal, financial, or intellectual property.",
+          "Data state matters. Data at rest, in transit, and in use require different protection methods and monitoring choices.",
+          "Sovereignty, geolocation, geographic restrictions, permission limits, segmentation, masking, tokenization, hashing, encryption, and obfuscation help match controls to privacy and business requirements."
+        ],
+        remember: "Classify first, then protect according to state, location, sensitivity, and access need.",
+        sections: [
+          {
+            title: "Protection Match",
+            items: [
+              "Masking hides values from users who do not need the full data.",
+              "Tokenization replaces sensitive values with substitutes.",
+              "Permission restrictions limit who can access the data.",
+              "Geographic restrictions support sovereignty or residency requirements."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "physical",
+      lesson: {
+        title: "Resilience, Recovery, And Facilities",
+        body: [
+          "Resilience architecture keeps services available through redundancy, load balancing, clustering, geographic dispersion, platform diversity, capacity planning, and continuity of operations.",
+          "Recovery site choices trade cost and speed: hot sites recover fastest, warm sites are partially ready, and cold sites take the most time to prepare.",
+          "Backup and facility questions may mention onsite or offsite copies, frequency, encryption, snapshots, recovery tests, replication, journaling, generators, or UPS power."
+        ],
+        remember: "Availability questions usually balance recovery speed, data loss, cost, and proof through testing.",
+        sections: [
+          {
+            title: "Testing Types",
+            items: [
+              "Tabletop exercises walk through decisions without moving production.",
+              "Failover testing proves alternate systems can take over.",
+              "Simulation tests realistic conditions in a controlled way.",
+              "Parallel processing runs old and new paths together for comparison."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "wireless",
+      lesson: {
+        title: "Mobile And Wireless Deployment Models",
+        body: [
+          "Mobile management questions often ask who owns the device and how much control the organization has. BYOD, CYOD, COPE, and corporate-owned models create different privacy and enforcement tradeoffs.",
+          "MDM and UEM can enforce screen locks, encryption, remote wipe, app controls, certificates, VPN profiles, and compliance checks across mobile and desktop fleets.",
+          "Wireless security combines placement, site surveys, heat maps, WPA3, RADIUS, authentication protocols, cryptographic protocols, and safe Bluetooth or cellular use."
+        ],
+        remember: "Ownership model decides control boundaries; wireless design decides coverage, leakage, and authentication strength.",
+        sections: [
+          {
+            title: "Deployment Clues",
+            items: [
+              "BYOD means personally owned device used for work.",
+              "CYOD means the user chooses from approved devices.",
+              "COPE means corporate-owned device with personal use allowed.",
+              "A heat map shows signal coverage and leakage patterns."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "assessment",
+      lesson: {
+        title: "Vulnerability Management Full Loop",
+        body: [
+          "Vulnerability management starts with discovery from scans, application testing, package monitoring, threat feeds, OSINT, dark web sources, bug bounty reports, penetration tests, and system or process audits.",
+          "Analysis confirms whether a finding is real, whether it is a false positive or false negative, how exposed the asset is, how critical the asset is, and how the organization tolerates the risk.",
+          "Response can include patching, segmentation, compensating controls, exceptions, insurance, or decommissioning. Validation closes the loop through rescanning, audit, or direct verification."
+        ],
+        remember: "Find, confirm, prioritize, respond, validate, and report.",
+        sections: [
+          {
+            title: "Scoring Context",
+            items: [
+              "CVE names a known vulnerability.",
+              "CVSS estimates technical severity.",
+              "Exposure factor estimates loss for a scenario.",
+              "Risk tolerance changes how urgently the business must act."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "assessment",
+      lesson: {
+        title: "Monitoring Tools And Signals",
+        body: [
+          "Security monitoring combines systems, applications, infrastructure, alerts, scan results, reports, archived logs, dashboards, and response validation.",
+          "Tool clues include SIEM for correlation, DLP for data movement, SNMP traps for device events, NetFlow for traffic metadata, SCAP for standardized configuration checks, and vulnerability scanners for known weaknesses.",
+          "Agent-based tools run on endpoints or workloads. Agentless tools inspect remotely through credentials, APIs, network views, or platform integrations."
+        ],
+        remember: "Monitoring answers depend on the evidence source: event, flow, file, endpoint, configuration, or data movement.",
+        sections: [
+          {
+            title: "Tuning And Response",
+            items: [
+              "Alert tuning reduces noisy false positives.",
+              "Quarantine isolates a suspicious host or file.",
+              "Archiving preserves events for later investigation.",
+              "Dashboards help communicate status and trends."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "iam",
+      lesson: {
+        title: "Federation, Access Models, And Passwordless",
+        body: [
+          "Federation lets one trusted identity provider support access to another system. SAML commonly supports enterprise browser SSO, OAuth authorizes delegated access, and LDAP queries directory information.",
+          "Access models include mandatory, discretionary, role-based, rule-based, attribute-based, time-of-day restrictions, and least privilege. ABAC uses attributes such as department, device, location, or data label.",
+          "Passwordless and privileged access features reduce password risk through security keys, biometrics, soft tokens, hard tokens, vaulting, just-in-time permissions, and ephemeral credentials."
+        ],
+        remember: "SSO proves who you are once; authorization still decides what each app allows.",
+        sections: [
+          {
+            title: "Factor Clues",
+            items: [
+              "Something you know: password, PIN, or passphrase.",
+              "Something you have: token, phone, smart card, or security key.",
+              "Something you are: biometric trait.",
+              "Somewhere you are: trusted location or geofence signal."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "incident",
+      lesson: {
+        title: "Automation, IR, And Investigation Data",
+        body: [
+          "Automation can provision users or resources, enforce guardrails, update security groups, create tickets, escalate alerts, enable or disable services, support CI testing, and integrate tools through APIs.",
+          "Automation benefits include speed, consistency, secure scaling, baseline enforcement, and faster reaction time. Risks include complexity, cost, technical debt, support burden, and single points of failure.",
+          "Incident response follows preparation, detection, analysis, containment, eradication, recovery, and lessons learned, supported by root cause analysis, threat hunting, forensics, evidence preservation, and reporting."
+        ],
+        remember: "Automate repeatable steps, but keep ownership, testing, and failure modes visible.",
+        sections: [
+          {
+            title: "Investigation Sources",
+            items: [
+              "Firewall, application, endpoint, OS security, IDS, IPS, and network logs.",
+              "Metadata, packet captures, vulnerability scans, automated reports, and dashboards.",
+              "E-discovery and legal hold when evidence may support legal review."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "governance",
+      lesson: {
+        title: "Governance, Compliance, And Audit Types",
+        body: [
+          "Governance defines how security decisions are made through policies, standards, procedures, playbooks, committees, roles, monitoring, and revision.",
+          "Compliance focuses on obligations from laws, contracts, industry rules, and internal requirements. Noncompliance can create fines, sanctions, reputational damage, loss of license, or contractual impact.",
+          "Assessments may be internal, external, regulatory, self-assessment, independent third-party audit, or penetration testing with known, partially known, or unknown environments."
+        ],
+        remember: "Governance sets direction, compliance proves obligation handling, and audit evidence proves the control happened.",
+        sections: [
+          {
+            title: "Role Clues",
+            items: [
+              "Owner is accountable for the asset or data decision.",
+              "Controller decides why and how personal data is processed.",
+              "Processor handles personal data on behalf of a controller.",
+              "Custodian or steward protects and maintains data according to rules."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "risk-privacy",
+      lesson: {
+        title: "Risk Process And Response Choices",
+        body: [
+          "Risk management identifies, assesses, analyzes, responds to, monitors, and reports risk. Assessments can be ad hoc, recurring, one-time, or continuous.",
+          "Qualitative analysis uses ratings such as low, medium, and high. Quantitative analysis uses numbers such as asset value, exposure factor, SLE, ARO, and ALE.",
+          "Responses include accepting, avoiding, mitigating, transferring, or sharing risk. Risk appetite and tolerance help decide which response fits the business."
+        ],
+        remember: "Risk questions often ask what the business should do next, not merely what the threat is.",
+        sections: [
+          {
+            title: "Register Fields",
+            items: [
+              "Risk statement, asset, threat, vulnerability, likelihood, impact, owner, response, status, and review date.",
+              "Risk appetite is the broad level of risk the organization is willing to take.",
+              "Risk tolerance is the acceptable variation around a specific target."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      topic: "principles",
+      lesson: {
+        title: "Security Awareness Practices",
+        body: [
+          "Awareness programs teach people how to recognize and report risky, unexpected, or unintentional behavior before it becomes a larger incident.",
+          "Phishing practice should include campaigns, recognition clues, reporting paths, and safe response after a suspicious message is reported.",
+          "User guidance should cover policy handbooks, password management, removable media, cables, social engineering, operational security, insider threat signals, and hybrid or remote work."
+        ],
+        remember: "Awareness is effective when reporting is easy, recurring, and tied to real behavior.",
+        sections: [
+          {
+            title: "Program Signals",
+            items: [
+              "Initial training introduces expectations.",
+              "Recurring training reinforces behavior.",
+              "Metrics show reporting and click trends.",
+              "Targeted guidance addresses risky groups or workflows."
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  questions: [
+    {
+      id: "pdf-exam-domain-order-1",
+      topic: "principles",
+      prompt: "A learner has limited time and wants to follow SY0-701 domain weighting. Which area deserves the largest share of practice?",
+      choices: ["Security operations", "General concepts", "Security architecture", "Threats only"],
+      answer: 0,
+      explanation: "Security operations has the largest share of the SY0-701 objective map."
+    },
+    {
+      id: "pdf-controls-category-1",
+      topic: "principles",
+      prompt: "A security steering committee approves policies and risk decisions. Which control category is most closely represented?",
+      choices: ["Managerial", "Physical", "Cryptographic", "Wireless"],
+      answer: 0,
+      explanation: "Committees, policies, and risk decisions are managerial or governance-oriented controls."
+    },
+    {
+      id: "pdf-controls-purpose-1",
+      topic: "principles",
+      prompt: "A banner warns users that activity is monitored before login. Which control type best fits?",
+      choices: ["Directive or deterrent", "Corrective only", "Compensating only", "Recovery only"],
+      answer: 0,
+      explanation: "Warning banners direct behavior and may deter misuse."
+    },
+    {
+      id: "pdf-deception-1",
+      topic: "principles",
+      prompt: "A fake credential is planted in a repository and alerts if anyone tries to use it. What is this closest to?",
+      choices: ["Honeytoken", "HSM", "Hot site", "Hash collision"],
+      answer: 0,
+      explanation: "A honeytoken is a monitored decoy item such as a fake credential, file, or record."
+    },
+    {
+      id: "pdf-zero-trust-plane-1",
+      topic: "network-design",
+      prompt: "In Zero Trust, which component is most responsible for making policy-driven access decisions?",
+      choices: ["Policy engine", "Cold site", "SPF record", "RFID badge"],
+      answer: 0,
+      explanation: "The policy engine evaluates signals and policy to support access decisions."
+    },
+    {
+      id: "pdf-change-backout-1",
+      topic: "governance",
+      prompt: "A firewall rule change could interrupt payment processing. Which change document is most important if the deployment fails?",
+      choices: ["Backout plan", "Birthday attack", "Watering hole", "Key escrow"],
+      answer: 0,
+      explanation: "A backout plan defines how to return to a known-good state if the change fails."
+    },
+    {
+      id: "pdf-change-stakeholders-1",
+      topic: "governance",
+      prompt: "Before restarting an authentication service, what should change management identify?",
+      choices: ["Owners, stakeholders, impact, test results, and maintenance window", "Only the attacker's IP address", "A longer password hash", "An unrelated vendor logo"],
+      answer: 0,
+      explanation: "Secure changes account for ownership, impact, testing, scheduling, and affected parties."
+    },
+    {
+      id: "pdf-crypto-key-tool-1",
+      topic: "crypto",
+      prompt: "A company needs tamper-resistant protection for high-value certificate authority private keys. Which tool is best?",
+      choices: ["HSM", "WAF", "NetFlow", "Honeynet"],
+      answer: 0,
+      explanation: "An HSM protects sensitive keys and performs cryptographic operations in hardened hardware."
+    },
+    {
+      id: "pdf-crypto-tokenization-1",
+      topic: "crypto",
+      prompt: "A payment system replaces card numbers with surrogate values so applications do not store the original numbers. What is this?",
+      choices: ["Tokenization", "Key stretching", "Steganography", "Downgrade attack"],
+      answer: 0,
+      explanation: "Tokenization substitutes sensitive values with tokens to reduce exposure."
+    },
+    {
+      id: "pdf-crypto-revocation-1",
+      topic: "crypto",
+      prompt: "Which mechanisms help determine whether a certificate should no longer be trusted?",
+      choices: ["CRL and OCSP", "NAT and PAT", "SLA and MOU", "BYOD and COPE"],
+      answer: 0,
+      explanation: "CRLs and OCSP provide certificate revocation information."
+    },
+    {
+      id: "pdf-threat-actor-motive-1",
+      topic: "network-attacks",
+      prompt: "An attacker defaces a public website to promote a political message. Which actor motivation fits best?",
+      choices: ["Philosophical or political belief", "Certificate renewal", "Capacity planning", "Data retention"],
+      answer: 0,
+      explanation: "Hacktivist-style activity commonly maps to political or philosophical motivation."
+    },
+    {
+      id: "pdf-vector-bec-1",
+      topic: "network-attacks",
+      prompt: "An email appearing to come from the CFO asks payroll to change a direct deposit account. What vector is most likely?",
+      choices: ["Business email compromise", "VM escape", "Geographic dispersion", "Parallel processing"],
+      answer: 0,
+      explanation: "Business email compromise abuses trusted business communication for fraud."
+    },
+    {
+      id: "pdf-indicator-impossible-travel-1",
+      topic: "assessment",
+      prompt: "A user logs in from California and then five minutes later from another continent. Which indicator is this?",
+      choices: ["Impossible travel", "False negative", "Key stretching", "Cold site"],
+      answer: 0,
+      explanation: "Impossible travel indicates suspicious authentication based on unrealistic location timing."
+    },
+    {
+      id: "pdf-vuln-race-1",
+      topic: "app-attacks",
+      prompt: "An application checks a file permission, then uses the file after an attacker swaps it. What vulnerability class is this?",
+      choices: ["Race condition", "DNS poisoning", "Data masking", "Risk transfer"],
+      answer: 0,
+      explanation: "A time-of-check to time-of-use race can let a resource change between validation and use."
+    },
+    {
+      id: "pdf-vuln-vm-escape-1",
+      topic: "cloud-security",
+      prompt: "Malware in a virtual machine breaks isolation and executes on the host. What is this?",
+      choices: ["VM escape", "Credential stuffing", "Warm site", "Policy exception"],
+      answer: 0,
+      explanation: "VM escape breaks the boundary between guest and host."
+    },
+    {
+      id: "pdf-vuln-mobile-sideload-1",
+      topic: "wireless",
+      prompt: "A user installs an app from outside the approved app store and bypasses normal review. What is this called?",
+      choices: ["Side loading", "Journaling", "Clustering", "Legal hold"],
+      answer: 0,
+      explanation: "Side loading installs software outside the trusted or managed distribution path."
+    },
+    {
+      id: "pdf-mitigations-select-1",
+      topic: "endpoint",
+      prompt: "Which actions are common mitigation techniques? Select all that apply.",
+      choices: ["Patching", "Segmentation", "Least privilege", "Keeping default passwords"],
+      answers: [0, 1, 2],
+      explanation: "Patching, segmentation, and least privilege reduce exposure; default passwords increase risk."
+    },
+    {
+      id: "pdf-hardening-disable-ports-1",
+      topic: "endpoint",
+      prompt: "A server exposes unused management services. Which hardening action is best?",
+      choices: ["Disable unnecessary ports and protocols", "Increase the public attack surface", "Remove logging", "Share administrator accounts"],
+      answer: 0,
+      explanation: "Disabling unused services reduces attack surface."
+    },
+    {
+      id: "pdf-architecture-ics-1",
+      topic: "cloud-security",
+      prompt: "Why might an ICS or SCADA environment be harder to patch than a typical office workstation?",
+      choices: ["Availability and safety constraints may limit downtime", "It never has vulnerabilities", "It cannot be segmented", "It only uses public cloud"],
+      answer: 0,
+      explanation: "Industrial environments often have safety, uptime, certification, and operational constraints."
+    },
+    {
+      id: "pdf-architecture-iac-1",
+      topic: "cloud-security",
+      prompt: "A team repeatedly deploys the same secure network and logging settings from reviewed templates. Which concept is this?",
+      choices: ["Infrastructure as code", "Typosquatting", "Birthday attack", "Shoulder surfing"],
+      answer: 0,
+      explanation: "Infrastructure as code uses templates or code to deploy consistent infrastructure."
+    },
+    {
+      id: "pdf-infra-fail-mode-1",
+      topic: "network-design",
+      prompt: "A door unlocks during a fire alarm, while a server cabinet remains locked during power loss. What is being balanced?",
+      choices: ["Fail-open for life safety and fail-closed for asset protection", "Hashing and salting", "NDA and SLA", "Cold and hot wallet"],
+      answer: 0,
+      explanation: "Some controls fail open for safety, while others fail closed for security."
+    },
+    {
+      id: "pdf-infra-appliance-1",
+      topic: "network-design",
+      prompt: "Which devices can directly enforce or inspect traffic at a network boundary? Select all that apply.",
+      choices: ["WAF", "NGFW", "IPS", "Legal hold"],
+      answers: [0, 1, 2],
+      explanation: "WAFs, next-generation firewalls, and IPS devices can inspect or enforce traffic policy."
+    },
+    {
+      id: "pdf-secure-access-sase-1",
+      topic: "network-design",
+      prompt: "A company wants cloud-delivered secure access combining networking and security controls for remote users. Which concept fits best?",
+      choices: ["SASE", "CRL", "BIA", "RTOS"],
+      answer: 0,
+      explanation: "SASE combines secure access and network security functions, often delivered from the cloud."
+    },
+    {
+      id: "pdf-data-classification-1",
+      topic: "risk-privacy",
+      prompt: "Which step should come before choosing detailed data protection controls?",
+      choices: ["Classify the data", "Disable all backups", "Remove all audit trails", "Use the same permissions for everyone"],
+      answer: 0,
+      explanation: "Classification identifies sensitivity and handling needs before controls are chosen."
+    },
+    {
+      id: "pdf-data-state-1",
+      topic: "crypto",
+      prompt: "Data being sent between a browser and a web server is in which state?",
+      choices: ["In transit", "At rest", "In a cold site", "Decommissioned"],
+      answer: 0,
+      explanation: "Network communication is data in transit."
+    },
+    {
+      id: "pdf-data-sovereignty-1",
+      topic: "risk-privacy",
+      prompt: "A law requires customer records to remain in a specific country. Which concern is most relevant?",
+      choices: ["Data sovereignty", "Birthday collision", "Shoulder surfing", "Buffer overflow"],
+      answer: 0,
+      explanation: "Data sovereignty and residency requirements govern where data may be stored or processed."
+    },
+    {
+      id: "pdf-resilience-site-1",
+      topic: "physical",
+      prompt: "Which recovery site is ready to operate with minimal delay and usually costs the most?",
+      choices: ["Hot site", "Cold site", "Unmanaged switch", "Honeypot"],
+      answer: 0,
+      explanation: "A hot site is highly prepared and supports rapid recovery, so it is usually more expensive."
+    },
+    {
+      id: "pdf-resilience-test-1",
+      topic: "physical",
+      prompt: "A team walks through a disaster scenario in a meeting without moving production services. What is this?",
+      choices: ["Tabletop exercise", "VM escape", "DLP quarantine", "Key escrow"],
+      answer: 0,
+      explanation: "A tabletop exercise reviews roles and decisions without performing a live failover."
+    },
+    {
+      id: "pdf-backup-journaling-1",
+      topic: "physical",
+      prompt: "Which backup-related technique records changes so recovery can replay activity to a point in time?",
+      choices: ["Journaling", "Typosquatting", "Smishing", "Certificate pinning"],
+      answer: 0,
+      explanation: "Journaling records changes that can support more granular recovery."
+    },
+    {
+      id: "pdf-mobile-models-1",
+      topic: "wireless",
+      prompt: "A company owns the phone but allows personal use. Which deployment model is this?",
+      choices: ["COPE", "BYOD", "Unknown environment", "Hot site"],
+      answer: 0,
+      explanation: "COPE means corporate-owned, personally enabled."
+    },
+    {
+      id: "pdf-wireless-heatmap-1",
+      topic: "wireless",
+      prompt: "An engineer maps signal coverage and leakage around an office. What artifact is most useful?",
+      choices: ["Wireless heat map", "Certificate revocation list", "Risk register", "Legal hold"],
+      answer: 0,
+      explanation: "A heat map shows wireless coverage strength and leakage patterns."
+    },
+    {
+      id: "pdf-vuln-false-positive-1",
+      topic: "assessment",
+      prompt: "A scanner reports a flaw, but manual verification proves the system is not vulnerable. What is this?",
+      choices: ["False positive", "False negative", "Zero-day", "Data minimization"],
+      answer: 0,
+      explanation: "A false positive is an alert or finding that is not actually present."
+    },
+    {
+      id: "pdf-vuln-bug-bounty-1",
+      topic: "assessment",
+      prompt: "A company authorizes outside researchers to report vulnerabilities for rewards within defined rules. What is this?",
+      choices: ["Bug bounty program", "Password spraying", "Key escrow", "COPE"],
+      answer: 0,
+      explanation: "Bug bounty programs are responsible disclosure programs with defined scope and rewards."
+    },
+    {
+      id: "pdf-monitoring-netflow-1",
+      topic: "assessment",
+      prompt: "Which source best summarizes network conversations by metadata such as source, destination, port, and volume?",
+      choices: ["NetFlow", "NDA", "CSR", "WPA3"],
+      answer: 0,
+      explanation: "NetFlow records traffic metadata that helps analyze network behavior."
+    },
+    {
+      id: "pdf-monitoring-scap-1",
+      topic: "assessment",
+      prompt: "A team wants standardized configuration checks against secure benchmarks. Which capability fits best?",
+      choices: ["SCAP", "Vishing", "Geofencing", "RAID"],
+      answer: 0,
+      explanation: "SCAP supports standardized security configuration and vulnerability checking."
+    },
+    {
+      id: "pdf-enterprise-email-auth-1",
+      topic: "network-design",
+      prompt: "Which records help protect email domains from spoofing and improve message authentication? Select all that apply.",
+      choices: ["SPF", "DKIM", "DMARC", "SNMP"],
+      answers: [0, 1, 2],
+      explanation: "SPF, DKIM, and DMARC work together to authenticate email and handle spoofing policy."
+    },
+    {
+      id: "pdf-enterprise-fim-1",
+      topic: "endpoint",
+      prompt: "A server alerts when critical system files change unexpectedly. What control is this?",
+      choices: ["File integrity monitoring", "Data sovereignty", "Watering hole", "Risk appetite"],
+      answer: 0,
+      explanation: "File integrity monitoring watches important files for unauthorized or unexpected change."
+    },
+    {
+      id: "pdf-iam-abac-1",
+      topic: "iam",
+      prompt: "Access is allowed only when the user is in Finance, the device is compliant, and the data label is internal. Which model fits best?",
+      choices: ["ABAC", "DAC only", "Cold site", "Birthday attack"],
+      answer: 0,
+      explanation: "Attribute-based access control evaluates attributes such as user, device, context, and resource labels."
+    },
+    {
+      id: "pdf-iam-federation-1",
+      topic: "iam",
+      prompt: "An identity provider lets employees sign in to a SaaS app using enterprise credentials. What concept is this?",
+      choices: ["Federation", "Side loading", "Journaling", "Resource reuse"],
+      answer: 0,
+      explanation: "Federation allows one trusted identity provider to support access to another service."
+    },
+    {
+      id: "pdf-iam-ephemeral-1",
+      topic: "iam",
+      prompt: "An admin receives short-lived credentials for one approved maintenance task. What PAM idea is this?",
+      choices: ["Ephemeral credentials", "Shared permanent root password", "Unrestricted guest access", "Password reuse"],
+      answer: 0,
+      explanation: "Ephemeral credentials expire quickly and reduce standing privilege."
+    },
+    {
+      id: "pdf-automation-benefit-1",
+      topic: "incident",
+      prompt: "A SOAR playbook enriches alerts, opens tickets, and isolates confirmed hosts. What is a key benefit?",
+      choices: ["Faster and more consistent response", "Guaranteed removal of all risk", "No need for testing", "Permanent elimination of technical debt"],
+      answer: 0,
+      explanation: "Automation can improve speed and consistency, but it still needs ownership and testing."
+    },
+    {
+      id: "pdf-automation-risk-1",
+      topic: "incident",
+      prompt: "What is a realistic risk of poorly maintained security automation?",
+      choices: ["Technical debt and brittle failure modes", "Better audit evidence by default", "Reduced complexity in every case", "Elimination of all false positives"],
+      answer: 0,
+      explanation: "Automation can create complexity, support burden, and fragile dependencies if not maintained."
+    },
+    {
+      id: "pdf-ir-root-cause-1",
+      topic: "incident",
+      prompt: "After recovery, the team determines the original weakness that allowed the incident. What activity is this?",
+      choices: ["Root cause analysis", "Tokenization", "Port security", "Risk transfer"],
+      answer: 0,
+      explanation: "Root cause analysis identifies the underlying cause so it can be corrected."
+    },
+    {
+      id: "pdf-investigation-sources-1",
+      topic: "incident",
+      prompt: "Which sources can support an investigation into lateral movement? Select all that apply.",
+      choices: ["Endpoint logs", "Authentication logs", "Network logs", "A random marketing brochure"],
+      answers: [0, 1, 2],
+      explanation: "Endpoint, authentication, and network logs can reveal execution, logons, and movement paths."
+    },
+    {
+      id: "pdf-governance-controller-1",
+      topic: "governance",
+      prompt: "An organization decides why and how customer personal data is processed. What role is this?",
+      choices: ["Controller", "Processor", "Packet broker", "Threat actor"],
+      answer: 0,
+      explanation: "A controller determines the purposes and means of personal data processing."
+    },
+    {
+      id: "pdf-compliance-impact-1",
+      topic: "governance",
+      prompt: "Which outcomes can result from compliance failures? Select all that apply.",
+      choices: ["Fines", "Sanctions", "Reputational damage", "Automatic immunity"],
+      answers: [0, 1, 2],
+      explanation: "Compliance failures may create financial, legal, contractual, licensing, and reputation consequences."
+    },
+    {
+      id: "pdf-audit-known-env-1",
+      topic: "assessment",
+      prompt: "A penetration tester receives full diagrams and credentials before testing. Which environment knowledge level is this?",
+      choices: ["Known environment", "Unknown environment", "Side-loaded environment", "Cold environment"],
+      answer: 0,
+      explanation: "Known environment testing provides substantial information to the tester."
+    },
+    {
+      id: "pdf-risk-register-1",
+      topic: "risk-privacy",
+      prompt: "Where should a team track risk owner, likelihood, impact, response, status, and review date?",
+      choices: ["Risk register", "Certificate chain", "Jump server", "Email gateway"],
+      answer: 0,
+      explanation: "A risk register tracks risk details, ownership, response, and status."
+    },
+    {
+      id: "pdf-risk-response-transfer-1",
+      topic: "risk-privacy",
+      prompt: "A company buys cyber insurance to offset part of a potential loss. Which risk response is this?",
+      choices: ["Transfer", "Avoid", "Accept", "Ignore"],
+      answer: 0,
+      explanation: "Insurance transfers some financial impact to another party."
+    },
+    {
+      id: "pdf-awareness-phishing-1",
+      topic: "principles",
+      prompt: "What should a phishing awareness program make easy for users?",
+      choices: ["Recognizing and reporting suspicious messages", "Bypassing MFA", "Sharing passwords with managers", "Disabling email security controls"],
+      answer: 0,
+      explanation: "Awareness should help users recognize suspicious messages and report them through a clear path."
+    },
+    {
+      id: "pdf-awareness-anomalous-1",
+      topic: "principles",
+      prompt: "An employee notices a coworker downloading unusual volumes of files outside normal duties. What awareness concept applies?",
+      choices: ["Anomalous behavior recognition", "Certificate pinning", "Load balancing", "WPA3 transition mode"],
+      answer: 0,
+      explanation: "Security awareness includes recognizing risky, unexpected, or unintentional behavior."
+    }
+  ],
+  flashCards: [
+    { id: "pdf-card-managerial-control", topic: "principles", term: "Managerial Control", definition: "Governance-oriented control such as policy, risk decisions, oversight, or approval." },
+    { id: "pdf-card-operational-control", topic: "principles", term: "Operational Control", definition: "People-and-process control such as procedures, training, monitoring, and incident handling." },
+    { id: "pdf-card-directive-control", topic: "principles", term: "Directive Control", definition: "Control that tells people what behavior is expected, such as policy or warning banners." },
+    { id: "pdf-card-honeytoken", topic: "principles", term: "Honeytoken", definition: "Decoy data or credential that alerts when touched or used." },
+    { id: "pdf-card-policy-engine", topic: "network-design", term: "Policy Engine", definition: "Zero Trust decision component that evaluates identity, device, context, and policy." },
+    { id: "pdf-card-change-backout", topic: "governance", term: "Backout Plan", definition: "Documented steps to return a change to a known-good state if deployment fails." },
+    { id: "pdf-card-maintenance-window", topic: "governance", term: "Maintenance Window", definition: "Approved time period for change work that may affect service availability." },
+    { id: "pdf-card-key-escrow", topic: "crypto", term: "Key Escrow", definition: "Controlled storage of keys so authorized recovery is possible when required." },
+    { id: "pdf-card-secure-enclave", topic: "crypto", term: "Secure Enclave", definition: "Protected processing area for sensitive operations such as key handling." },
+    { id: "pdf-card-key-stretching", topic: "crypto", term: "Key Stretching", definition: "Making password-derived keys harder to brute force by increasing computation work." },
+    { id: "pdf-card-threat-motive", topic: "network-attacks", term: "Threat Motivation", definition: "Reason behind activity, such as financial gain, espionage, disruption, revenge, or ideology." },
+    { id: "pdf-card-bec", topic: "network-attacks", term: "Business Email Compromise", definition: "Fraud using trusted business email context to redirect money, data, or decisions." },
+    { id: "pdf-card-pretexting", topic: "network-attacks", term: "Pretexting", definition: "Social engineering that uses a fabricated story to make a request seem legitimate." },
+    { id: "pdf-card-watering-hole", topic: "network-attacks", term: "Watering Hole", definition: "Attack that compromises a site commonly visited by the target group." },
+    { id: "pdf-card-typosquatting", topic: "network-attacks", term: "Typosquatting", definition: "Use of look-alike or mistyped domains to capture victims." },
+    { id: "pdf-card-race-condition", topic: "app-attacks", term: "Race Condition", definition: "Timing flaw where a resource changes between check and use." },
+    { id: "pdf-card-vm-escape", topic: "cloud-security", term: "VM Escape", definition: "Breakout from guest virtual machine isolation to the host or hypervisor layer." },
+    { id: "pdf-card-side-loading", topic: "wireless", term: "Side Loading", definition: "Installing apps outside the approved or trusted app distribution path." },
+    { id: "pdf-card-zero-day", topic: "assessment", term: "Zero-Day", definition: "Vulnerability unknown to defenders or without an available fix at disclosure time." },
+    { id: "pdf-card-attack-surface", topic: "network-design", term: "Attack Surface", definition: "All exposed points where an attacker could interact with a system." },
+    { id: "pdf-card-iac", topic: "cloud-security", term: "Infrastructure as Code", definition: "Managing infrastructure through reviewed, repeatable code or templates." },
+    { id: "pdf-card-air-gap", topic: "network-design", term: "Air Gap", definition: "Physical isolation from other networks to reduce connectivity risk." },
+    { id: "pdf-card-rtos", topic: "endpoint", term: "RTOS", definition: "Real-time operating system used where predictable timing is critical." },
+    { id: "pdf-card-fail-open", topic: "network-design", term: "Fail-Open", definition: "Failure mode that allows access or operation, often for availability or life safety." },
+    { id: "pdf-card-fail-closed", topic: "network-design", term: "Fail-Closed", definition: "Failure mode that blocks access or operation to protect assets." },
+    { id: "pdf-card-sase", topic: "network-design", term: "SASE", definition: "Secure Access Service Edge; cloud-delivered networking and security access model." },
+    { id: "pdf-card-data-sovereignty", topic: "risk-privacy", term: "Data Sovereignty", definition: "Requirement that data is subject to laws and location rules of a jurisdiction." },
+    { id: "pdf-card-data-in-use", topic: "crypto", term: "Data in Use", definition: "Data actively being processed in memory or by an application." },
+    { id: "pdf-card-journaling", topic: "physical", term: "Journaling", definition: "Recording changes so recovery can replay or restore activity to a point in time." },
+    { id: "pdf-card-parallel-processing", topic: "physical", term: "Parallel Processing", definition: "Running old and new or primary and alternate processes together for comparison or continuity." },
+    { id: "pdf-card-cyod", topic: "wireless", term: "CYOD", definition: "Choose your own device from an organization-approved list." },
+    { id: "pdf-card-cope", topic: "wireless", term: "COPE", definition: "Corporate-owned, personally enabled device model." },
+    { id: "pdf-card-false-positive", topic: "assessment", term: "False Positive", definition: "Alert or finding that appears present but is not actually a real issue." },
+    { id: "pdf-card-false-negative", topic: "assessment", term: "False Negative", definition: "Missed issue where a tool or process reports no problem even though one exists." },
+    { id: "pdf-card-scap", topic: "assessment", term: "SCAP", definition: "Security Content Automation Protocol for standardized security checks." },
+    { id: "pdf-card-netflow", topic: "assessment", term: "NetFlow", definition: "Network metadata showing traffic conversations, ports, volume, and direction." },
+    { id: "pdf-card-snmp-trap", topic: "assessment", term: "SNMP Trap", definition: "Device-generated management alert sent to monitoring systems." },
+    { id: "pdf-card-fim", topic: "endpoint", term: "File Integrity Monitoring", definition: "Detection of unexpected changes to important files." },
+    { id: "pdf-card-abac", topic: "iam", term: "ABAC", definition: "Attribute-based access control using user, resource, device, or context attributes." },
+    { id: "pdf-card-ephemeral-creds", topic: "iam", term: "Ephemeral Credentials", definition: "Short-lived credentials that expire after a limited task or time window." },
+    { id: "pdf-card-oauth", topic: "iam", term: "OAuth", definition: "Delegated authorization framework used to grant limited access without sharing a password." },
+    { id: "pdf-card-automation-guardrails", topic: "incident", term: "Automation Guardrails", definition: "Policy checks or automated controls that keep deployments inside approved limits." },
+    { id: "pdf-card-rca", topic: "incident", term: "Root Cause Analysis", definition: "Process of identifying the underlying reason an incident or failure occurred." },
+    { id: "pdf-card-e-discovery", topic: "incident", term: "E-Discovery", definition: "Identification and preservation of electronic information for legal review." },
+    { id: "pdf-card-data-controller", topic: "governance", term: "Data Controller", definition: "Entity deciding why and how personal data is processed." },
+    { id: "pdf-card-data-processor", topic: "governance", term: "Data Processor", definition: "Entity processing personal data on behalf of a controller." },
+    { id: "pdf-card-risk-appetite", topic: "risk-privacy", term: "Risk Appetite", definition: "Broad amount and type of risk an organization is willing to accept." },
+    { id: "pdf-card-risk-tolerance", topic: "risk-privacy", term: "Risk Tolerance", definition: "Acceptable variation around a specific risk objective or threshold." },
+    { id: "pdf-card-known-env-test", topic: "assessment", term: "Known Environment Test", definition: "Assessment where testers receive detailed system information before testing." },
+    { id: "pdf-card-awareness-campaign", topic: "principles", term: "Awareness Campaign", definition: "Planned training and communication effort to improve security behavior and reporting." }
+  ]
+};
+
 uploadedMaterialExpansion.lessons.forEach(({ topic, lesson }) => {
   const target = topics.find((item) => item.id === topic);
   if (target && !target.lessons.some((item) => item.title === lesson.title)) target.lessons.push(lesson);
@@ -4459,6 +5361,19 @@ uploadedMaterialExpansion.questions.forEach((question) => {
 });
 
 uploadedMaterialExpansion.flashCards.forEach((card) => {
+  if (!flashCardBank.some((item) => item.id === card.id)) flashCardBank.push(card);
+});
+
+sy0701ObjectivesExpansion.lessons.forEach(({ topic, lesson }) => {
+  const target = topics.find((item) => item.id === topic);
+  if (target && !target.lessons.some((item) => item.title === lesson.title)) target.lessons.push(lesson);
+});
+
+sy0701ObjectivesExpansion.questions.forEach((question) => {
+  if (!fullQuestionBank.some((item) => item.id === question.id)) fullQuestionBank.push(question);
+});
+
+sy0701ObjectivesExpansion.flashCards.forEach((card) => {
   if (!flashCardBank.some((item) => item.id === card.id)) flashCardBank.push(card);
 });
 

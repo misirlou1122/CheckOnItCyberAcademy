@@ -1,6 +1,6 @@
 # Check On It Cyber Academy
 
-Swipeable cyber study app with chapter tiles, 10-question quizzes, a 90-question Security+ final practice mode, flash cards, progress tracking, and a Spanish study mode.
+Swipeable cyber study app with chapter tiles, 10-question quizzes, a 90-question Security+ final practice mode, flash cards, progress tracking, Spanish study mode, and expanded SY0-701 objective-aligned study material.
 
 Local preview:
 
